@@ -1,17 +1,17 @@
 {
-    "root": "apps/something-e2e",
-    "sourceRoot": "apps/something-e2e/src",
+    "root": "apps/something-shop-e2e",
+    "sourceRoot": "apps/something-shop-e2e/src",
     "projectType": "application",
     "targets": {
         "e2e": {
             "executor": "@nrwl/cypress:cypress",
             "options": {
-                "cypressConfig": "apps/something-e2e/cypress.json",
-                "devServerTarget": "something:serve:development"
+                "cypressConfig": "apps/something-shop-e2e/cypress.json",
+                "devServerTarget": "something-shop:serve:development"
             },
             "configurations": {
                 "production": {
-                    "devServerTarget": "something:serve:production"
+                    "devServerTarget": "something-shop:serve:production"
                 }
             }
         },
@@ -19,10 +19,10 @@
             "executor": "@nrwl/linter:eslint",
             "outputs": ["{options.outputFile}"],
             "options": {
-                "lintFilePatterns": ["apps/something-e2e/**/*.{js,ts}"]
+                "lintFilePatterns": ["apps/something-shop-e2e/**/*.{js,ts}"]
             }
         }
     },
     "tags": [],
-    "implicitDependencies": ["something"]
+    "implicitDependencies": ["something-shop"]
 }

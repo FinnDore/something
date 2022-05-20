@@ -1,24 +1,24 @@
 {
     "projectType": "application",
-    "root": "apps/something",
-    "sourceRoot": "apps/something/src",
+    "root": "apps/something-shop",
+    "sourceRoot": "apps/something-shop/src",
     "prefix": "s",
     "targets": {
         "build": {
             "executor": "@angular-devkit/build-angular:browser",
             "outputs": ["{options.outputPath}"],
             "options": {
-                "outputPath": "dist/apps/something",
-                "index": "apps/something/src/index.html",
-                "main": "apps/something/src/main.ts",
-                "polyfills": "apps/something/src/polyfills.ts",
-                "tsConfig": "apps/something/tsconfig.app.json",
+                "outputPath": "dist/apps/something-shop",
+                "index": "apps/something-shop/src/index.html",
+                "main": "apps/something-shop/src/main.ts",
+                "polyfills": "apps/something-shop/src/polyfills.ts",
+                "tsConfig": "apps/something-shop/tsconfig.app.json",
                 "inlineStyleLanguage": "scss",
                 "assets": [
-                    "apps/something/src/favicon.ico",
-                    "apps/something/src/assets"
+                    "apps/something-shop/src/favicon.ico",
+                    "apps/something-shop/src/assets"
                 ],
-                "styles": ["apps/something/src/styles.scss"],
+                "styles": ["apps/something-shop/src/styles.scss"],
                 "scripts": []
             },
             "configurations": {
@@ -37,8 +37,8 @@
                     ],
                     "fileReplacements": [
                         {
-                            "replace": "apps/something/src/environments/environment.ts",
-                            "with": "apps/something/src/environments/environment.prod.ts"
+                            "replace": "apps/something-shop/src/environments/environment.ts",
+                            "with": "apps/something-shop/src/environments/environment.prod.ts"
                         }
                     ],
                     "outputHashing": "all"
@@ -58,10 +58,10 @@
             "executor": "@angular-devkit/build-angular:dev-server",
             "configurations": {
                 "production": {
-                    "browserTarget": "something:build:production"
+                    "browserTarget": "something-shop:build:production"
                 },
                 "development": {
-                    "browserTarget": "something:build:development"
+                    "browserTarget": "something-shop:build:development"
                 }
             },
             "defaultConfiguration": "development"
@@ -69,23 +69,23 @@
         "extract-i18n": {
             "executor": "@angular-devkit/build-angular:extract-i18n",
             "options": {
-                "browserTarget": "something:build"
+                "browserTarget": "something-shop:build"
             }
         },
         "lint": {
             "executor": "@nrwl/linter:eslint",
             "options": {
                 "lintFilePatterns": [
-                    "apps/something/src/**/*.ts",
-                    "apps/something/src/**/*.html"
+                    "apps/something-shop/src/**/*.ts",
+                    "apps/something-shop/src/**/*.html"
                 ]
             }
         },
         "test": {
             "executor": "@nrwl/jest:jest",
-            "outputs": ["coverage/apps/something"],
+            "outputs": ["coverage/apps/something-shop"],
             "options": {
-                "jestConfig": "apps/something/jest.config.js",
+                "jestConfig": "apps/something-shop/jest.config.js",
                 "passWithNoTests": true
             }
         },
