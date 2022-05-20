@@ -5,12 +5,17 @@
     "targets": {
         "build": {
             "executor": "@nrwl/workspace:run-commands",
-            "command": "cargo build --workspace --target-dir ./dist/apps/something/",
+            "options": {
+                "outputPath": "dist/apps/something/debug/something.exe",
+                "command": "cargo build --workspace --target-dir ./dist/apps/something/"
+            },
             "configurations": {
                 "production": {
+                    "outputPath": "dist/apps/something/releases/something.exe",
                     "command": "cargo build --workspace --target-dir ./dist/apps/something/ --release"
                 },
                 "development": {
+                    "outputPath": "dist/apps/something/debug/something.exe",
                     "command": "cargo build --workspace --target-dir ./dist/apps/something/"
                 }
             }
