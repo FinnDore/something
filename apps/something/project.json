@@ -65,7 +65,7 @@
         "rust-version": {
             "executor": "@nrwl/workspace:run-commands",
             "options": {
-                "command": "cargo cargo set-version ${version}"
+                "command": "cargo set-version ${version}"
             }
         }
     },
