@@ -33,12 +33,7 @@
                     ]
                 },
                 "development": {
-                    "options": {
-                        "commands": [
-                            "cd ./apps/something",
-                            "cargo watch -x run"
-                        ]
-                    }
+                    "commands": ["cd ./apps/something", "cargo watch -x run"]
                 }
             }
         },
