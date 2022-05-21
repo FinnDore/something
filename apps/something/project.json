@@ -53,6 +53,20 @@
             "options": {
                 "commands": ["cd ./apps/something", "cargo check --release"]
             }
+        },
+        "version": {
+            "executor": "@jscutlery/semver:version",
+            "options": {
+                "preset": "conventional",
+                "commitMessageFormat": "chore(${projectName}): release version ${version}",
+                "postTargets": ["something:rust-version"]
+            }
+        },
+        "rust-version": {
+            "executor": "@nrwl/workspace:run-commands",
+            "options": {
+                "command": "cargo cargo set-version ${version}"
+            }
         }
     },
     "tags": []
