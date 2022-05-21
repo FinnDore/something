@@ -9,5 +9,5 @@
         "**/.plastic": true
     },
     "hide-files.files": [],
-    "conventionalCommits.scopes": ["ci", "something"]
+    "conventionalCommits.scopes": ["ci", "something", "something-shop"]
 }
