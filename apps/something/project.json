@@ -69,7 +69,8 @@
             "executor": "@nrwl/workspace:run-commands",
             "options": {
                 "cwd": "apps/something",
-                "command": "cargo set-version ${version}"
+                "args": "${version}",
+                "command": "cargo set-version {args._}"
             }
         }
     },
