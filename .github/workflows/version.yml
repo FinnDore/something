@@ -17,6 +17,7 @@ jobs:
           git config user.name "${GITHUB_ACTOR}"
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
       - run: npm ci
-      - run: npx nx affected --target version --push --baseBranch main
+      - run: cargo install cargo-edit
+      - run: npx nx affected --target version --push --baseBranch main --parallel false
         env:
           GITHUB_TOKEN: ${{ secrets.PAT }}
