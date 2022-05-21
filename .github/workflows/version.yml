@@ -18,6 +18,10 @@ jobs:
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
       - run: npm ci
       - run: cargo install cargo-edit
-      - run: npx nx affected --target version --push --baseBranch main --parallel false --base=main~2
+      - run: npx nx affected --target version --baseBranch main --parallel false --base=last-release
+      - name: Tag last-release
+        run: |
+          git tag -f last-release
+          git push origin last-release --force
         env:
           GITHUB_TOKEN: ${{ secrets.PAT }}
