@@ -8,5 +8,8 @@ fn index() -> &'static str {
 
 #[launch]
 fn rocket() -> _ {
+    const VERSION: Option<&str> = option_env!("CARGO_PKG_VERSION");
+    println!("💸 something version {} 💸", VERSION.unwrap_or("UNKNOWN"));
+
     rocket::build().mount("/api", routes![index])
 }
