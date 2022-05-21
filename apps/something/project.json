@@ -70,7 +70,12 @@
             "options": {
                 "cwd": "apps/something",
                 "args": "${version}",
-                "command": "cargo set-version {args._}"
+                "commands": [
+                    "cargo set-version {args._}",
+                    "git add -A",
+                    "git commit -m increment rust version"
+                ],
+                "parallel": false
             }
         }
     },
