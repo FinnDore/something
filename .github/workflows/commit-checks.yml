@@ -25,7 +25,7 @@ jobs:
           node-version: 16
       - run: npm install
       - run: npx nx-cloud start-ci-run
-      - run: npx nx affected --target version --push --baseBranch main
+      - run: npx nx affected --target version --baseBranch main --parallel false
       - run: npx nx affected --target=build --configuration=production
       - run: npx nx affected --target=test --parallel
       - run: npx nx affected --target=lint
