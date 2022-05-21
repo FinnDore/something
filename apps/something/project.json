@@ -23,35 +23,38 @@
         "serve": {
             "executor": "@nrwl/workspace:run-commands",
             "options": {
-                "commands": ["cd ./apps/something", "cargo watch -x run"]
+                "cwd": "apps/something",
+                "command": "cargo watch -x run"
             },
             "configurations": {
                 "production": {
-                    "commands": [
-                        "cd ./apps/something",
-                        "cargo watch -x \"run --release\""
-                    ]
+                    "cwd": "apps/something",
+                    "command": "cargo watch -x \"run --release\""
                 },
                 "development": {
-                    "commands": ["cd ./apps/something", "cargo watch -x run"]
+                    "cwd": "apps/something",
+                    "command": "cargo watch -x run"
                 }
             }
         },
         "test": {
             "executor": "@nrwl/workspace:run-commands",
             "options": {
-                "commands": ["cd ./apps/something", "cargo test"]
+                "cwd": "apps/something",
+                "command": "cargo test"
             },
             "configurations": {
                 "watch": {
-                    "commands": ["cd ./apps/something", "cargo watch -x test"]
+                    "cwd": "apps/something",
+                    "command": "cargo watch -x test"
                 }
             }
         },
         "lint": {
             "executor": "@nrwl/workspace:run-commands",
             "options": {
-                "commands": ["cd ./apps/something", "cargo check --release"]
+                "cwd": "apps/something",
+                "command": "cargo check --release"
             }
         },
         "version": {
@@ -65,10 +68,8 @@
         "rust-version": {
             "executor": "@nrwl/workspace:run-commands",
             "options": {
-                "commands": [
-                    "cd ./apps/something",
-                    "cargo set-version ${version}"
-                ]
+                "cwd": "apps/something",
+                "command": "cargo set-version ${version}"
             }
         }
     },
