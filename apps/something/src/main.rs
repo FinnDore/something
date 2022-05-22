@@ -12,5 +12,5 @@ fn rocket() -> _ {
 
     println!("💸 something version {} 💸", VERSION.unwrap_or("UNKNOWN"));
 
-    rocket::build().mount("/api", routes![index])
+    rocket::build().mount("/", routes![index])
 }

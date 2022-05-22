@@ -1,0 +1,9 @@
+[default]
+port = 80
+
+[debug]
+address = "127.0.0.1"
+log_level = "debug"
+
+[release]
+address = "0.0.0.0"
