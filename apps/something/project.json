@@ -50,6 +50,13 @@
                 }
             }
         },
+        "docker-build": {
+            "executor": "@nrwl/workspace:run-commands",
+            "options": {
+                "cwd": "apps/something",
+                "command": "docker build -t something:latest ."
+            }
+        },
         "lint": {
             "executor": "@nrwl/workspace:run-commands",
             "options": {

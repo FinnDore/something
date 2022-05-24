@@ -66,6 +66,12 @@
             },
             "defaultConfiguration": "development"
         },
+        "docker-build": {
+            "executor": "@nrwl/workspace:run-commands",
+            "options": {
+                "command": "docker build  -t something-shop:latest -f apps/something-shop/dockerfile ."
+            }
+        },
         "extract-i18n": {
             "executor": "@angular-devkit/build-angular:extract-i18n",
             "options": {
