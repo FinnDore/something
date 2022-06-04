@@ -19,6 +19,3 @@ RUN npx nx build something-shop --configuration=production
 FROM nginx:1.21@sha256:b495f952df67472c3598b260f4b2e2ba9b5a8b0af837575cf4369c95c8d8a215
 
 COPY --from=0 /usr/src/something-shop/src/dist/apps/something-shop ./usr/share/nginx/html
-
-RUN rm -rf src
-
