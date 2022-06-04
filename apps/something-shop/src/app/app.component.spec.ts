@@ -1,3 +1,5 @@
 describe('AppComponent', () => {
-    it('', () => {});
+    it('a', () => {
+        expect(1).toBeTruthy();
+    });
 });
