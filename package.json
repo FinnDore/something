@@ -13,6 +13,7 @@
     "private": true,
     "dependencies": {
         "@angular/animations": "~13.3.0",
+        "@angular/cdk": "^13.0.0",
         "@angular/common": "~13.3.0",
         "@angular/compiler": "~13.3.0",
         "@angular/core": "~13.3.0",
@@ -23,6 +24,12 @@
         "@commitlint/config-nx-scopes": "^16.2.1",
         "@jscutlery/semver": "^2.23.3",
         "@nrwl/angular": "13.10.4",
+        "@taiga-ui/addon-commerce": "^2.47.0",
+        "@taiga-ui/addon-mobile": "^2.47.0",
+        "@taiga-ui/cdk": "^2.47.0",
+        "@taiga-ui/core": "^2.47.0",
+        "@taiga-ui/icons": "^2.47.0",
+        "@taiga-ui/kit": "^2.47.0",
         "rxjs": "~7.4.0",
         "tslib": "^2.0.0",
         "zone.js": "~0.11.4"

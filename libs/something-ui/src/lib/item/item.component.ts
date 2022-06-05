@@ -5,6 +5,7 @@ import {
     Input,
     NgModule
 } from '@angular/core';
+import { TuiButtonModule } from '@taiga-ui/core';
 
 @Component({
     selector: 's-ui-item',
@@ -17,7 +18,7 @@ export class ItemComponent {
 }
 
 @NgModule({
-    imports: [CommonModule],
+    imports: [CommonModule, TuiButtonModule],
     declarations: [ItemComponent],
     exports: [ItemComponent]
 })
