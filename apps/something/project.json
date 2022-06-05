@@ -1,89 +1,91 @@
 {
-    "root": "apps/something",
-    "projectType": "application",
-    "sourceRoot": "apps/something/src",
-    "targets": {
-        "build": {
-            "executor": "@nrwl/workspace:run-commands",
-            "options": {
-                "outputPath": "dist/apps/something/debug/something.exe",
-                "command": "cargo build --workspace --target-dir ./dist/apps/something/"
-            },
-            "configurations": {
-                "production": {
-                    "outputPath": "dist/apps/something/releases/something.exe",
-                    "command": "cargo build --workspace --target-dir ./dist/apps/something/ --release"
-                },
-                "development": {
-                    "outputPath": "dist/apps/something/debug/something.exe",
-                    "command": "cargo build --workspace --target-dir ./dist/apps/something/"
-                }
-            }
+  "root": "apps/something",
+  "projectType": "application",
+  "sourceRoot": "apps/something/src",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "outputPath": "dist/apps/something/debug/something.exe",
+        "command": "cargo build --workspace --target-dir ./dist/apps/something/"
+      },
+      "configurations": {
+        "production": {
+          "outputPath": "dist/apps/something/releases/something.exe",
+          "command": "cargo build --workspace --target-dir ./dist/apps/something/ --release"
         },
-        "serve": {
-            "executor": "@nrwl/workspace:run-commands",
-            "options": {
-                "cwd": "apps/something",
-                "command": "cargo watch -x run"
-            },
-            "configurations": {
-                "production": {
-                    "cwd": "apps/something",
-                    "command": "cargo watch -x \"run --release\""
-                },
-                "development": {
-                    "cwd": "apps/something",
-                    "command": "cargo watch -x run"
-                }
-            }
-        },
-        "test": {
-            "executor": "@nrwl/workspace:run-commands",
-            "options": {
-                "cwd": "apps/something",
-                "command": "cargo test"
-            },
-            "configurations": {
-                "watch": {
-                    "cwd": "apps/something",
-                    "command": "cargo watch -x test"
-                }
-            }
-        },
-        "docker-build": {
-            "executor": "@nrwl/workspace:run-commands",
-            "options": {
-                "cwd": "apps/something",
-                "command": "docker build -t something:latest ."
-            }
-        },
-        "lint": {
-            "executor": "@nrwl/workspace:run-commands",
-            "options": {
-                "cwd": "apps/something",
-                "command": "cargo check --release"
-            }
-        },
-        "version": {
-            "executor": "@jscutlery/semver:version",
-            "options": {
-                "preset": "conventional",
-                "commitMessageFormat": "chore(${projectName}): release version ${version}",
-                "postTargets": ["something:rust-version"]
-            }
-        },
-        "rust-version": {
-            "executor": "@nrwl/workspace:run-commands",
-            "options": {
-                "cwd": "apps/something",
-                "args": "${version}",
-                "commands": [
-                    "cargo set-version {args._}",
-                    "git add -A && git commit -m 'increment rust version {args._}' && git push origin main --force && echo pushed version {args._} to remote"
-                ],
-                "parallel": false
-            }
+        "development": {
+          "outputPath": "dist/apps/something/debug/something.exe",
+          "command": "cargo build --workspace --target-dir ./dist/apps/something/"
         }
+      }
     },
-    "tags": []
+    "serve": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/something",
+        "command": "cargo watch -x run"
+      },
+      "configurations": {
+        "production": {
+          "cwd": "apps/something",
+          "command": "cargo watch -x \"run --release\""
+        },
+        "development": {
+          "cwd": "apps/something",
+          "command": "cargo watch -x run"
+        }
+      }
+    },
+    "test": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/something",
+        "command": "cargo test"
+      },
+      "configurations": {
+        "watch": {
+          "cwd": "apps/something",
+          "command": "cargo watch -x test"
+        }
+      }
+    },
+    "docker-build": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/something",
+        "command": "docker build -t something:latest ."
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/something",
+        "command": "cargo check --release"
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "conventional",
+        "commitMessageFormat": "chore(${projectName}): release version ${version}",
+        "postTargets": [
+          "something:rust-version"
+        ]
+      }
+    },
+    "rust-version": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "cwd": "apps/something",
+        "args": "${version}",
+        "commands": [
+          "cargo set-version {args._}",
+          "git add -A && git commit -m 'increment rust version {args._}' && git push origin main --force && echo pushed version {args._} to remote"
+        ],
+        "parallel": false
+      }
+    }
+  },
+  "tags": []
 }
