@@ -1,0 +1,42 @@
+{
+    "projectType": "library",
+    "root": "libs/something-ui",
+    "sourceRoot": "libs/something-ui/src",
+    "prefix": "s-ui",
+    "targets": {
+        "build": {
+            "executor": "@nrwl/angular:ng-packagr-lite",
+            "outputs": ["dist/libs/something-ui"],
+            "options": {
+                "project": "libs/something-ui/ng-package.json"
+            },
+            "configurations": {
+                "production": {
+                    "tsConfig": "libs/something-ui/tsconfig.lib.prod.json"
+                },
+                "development": {
+                    "tsConfig": "libs/something-ui/tsconfig.lib.json"
+                }
+            },
+            "defaultConfiguration": "production"
+        },
+        "test": {
+            "executor": "@nrwl/jest:jest",
+            "outputs": ["coverage/libs/something-ui"],
+            "options": {
+                "jestConfig": "libs/something-ui/jest.config.js",
+                "passWithNoTests": true
+            }
+        },
+        "lint": {
+            "executor": "@nrwl/linter:eslint",
+            "options": {
+                "lintFilePatterns": [
+                    "libs/something-ui/src/**/*.ts",
+                    "libs/something-ui/src/**/*.html"
+                ]
+            }
+        }
+    },
+    "tags": []
+}
