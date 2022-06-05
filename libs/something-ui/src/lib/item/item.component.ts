@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    Input,
+    NgModule
+} from '@angular/core';
 
 @Component({
     selector: 's-ui-item',
@@ -7,7 +12,9 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
     styleUrls: ['./item.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ItemComponent {}
+export class ItemComponent {
+    @Input() price = 0;
+}
 
 @NgModule({
     imports: [CommonModule],
