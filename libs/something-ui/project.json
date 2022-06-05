@@ -36,6 +36,39 @@
                     "libs/something-ui/src/**/*.html"
                 ]
             }
+        },
+        "storybook": {
+            "executor": "@nrwl/storybook:storybook",
+            "options": {
+                "uiFramework": "@storybook/angular",
+                "port": 4400,
+                "config": {
+                    "configFolder": "libs/something-ui/.storybook"
+                },
+                "projectBuildConfig": "something-ui:build-storybook"
+            },
+            "configurations": {
+                "ci": {
+                    "quiet": true
+                }
+            }
+        },
+        "build-storybook": {
+            "executor": "@nrwl/storybook:build",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "uiFramework": "@storybook/angular",
+                "outputPath": "dist/storybook/something-ui",
+                "config": {
+                    "configFolder": "libs/something-ui/.storybook"
+                },
+                "projectBuildConfig": "something-ui:build-storybook"
+            },
+            "configurations": {
+                "ci": {
+                    "quiet": true
+                }
+            }
         }
     },
     "tags": []
