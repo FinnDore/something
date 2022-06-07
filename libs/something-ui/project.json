@@ -1,6 +1,6 @@
 {
+    "$schema": "..\\..\\node_modules\\nx\\schemas\\project-schema.json",
     "projectType": "library",
-    "root": "libs/something-ui",
     "sourceRoot": "libs/something-ui/src",
     "prefix": "s",
     "targets": {
@@ -24,7 +24,7 @@
             "executor": "@nrwl/jest:jest",
             "outputs": ["coverage/libs/something-ui"],
             "options": {
-                "jestConfig": "libs/something-ui/jest.config.js",
+                "jestConfig": "libs/something-ui/jest.config.ts",
                 "passWithNoTests": true
             }
         },
@@ -38,14 +38,12 @@
             }
         },
         "storybook": {
-            "executor": "@nrwl/storybook:storybook",
+            "executor": "@storybook/angular:start-storybook",
             "options": {
-                "uiFramework": "@storybook/angular",
                 "port": 4400,
-                "config": {
-                    "configFolder": "libs/something-ui/.storybook"
-                },
-                "projectBuildConfig": "something-ui:build-storybook"
+                "configDir": "libs/something-ui/.storybook",
+                "browserTarget": "something-ui:build-storybook",
+                "compodoc": false
             },
             "configurations": {
                 "ci": {
@@ -54,15 +52,13 @@
             }
         },
         "build-storybook": {
-            "executor": "@nrwl/storybook:build",
+            "executor": "@storybook/angular:build-storybook",
             "outputs": ["{options.outputPath}"],
             "options": {
-                "uiFramework": "@storybook/angular",
-                "outputPath": "dist/storybook/something-ui",
-                "config": {
-                    "configFolder": "libs/something-ui/.storybook"
-                },
-                "projectBuildConfig": "something-ui:build-storybook"
+                "outputDir": "dist/storybook/something-ui",
+                "configDir": "libs/something-ui/.storybook",
+                "browserTarget": "something-ui:build-storybook",
+                "compodoc": false
             },
             "configurations": {
                 "ci": {

@@ -1,9 +1,11 @@
 import {
     ChangeDetectorRef,
+    ComponentRef,
     Directive,
     HostListener,
     inject,
-    NgModule
+    NgModule,
+    ViewRef
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subject, takeUntil, tap, withLatestFrom } from 'rxjs';
@@ -23,7 +25,6 @@ export class AddToBasketDirective {
     private readonly addToBasket = this.addToBasket$.pipe(
         withLatestFrom(this.itemStore.itemId$),
         tap(([, itemId]) => itemId !== null && this.basketStore.addItem(itemId))
-        // takeUntil(inject(ChangeDetectorRef).de)
     );
 
     /**
