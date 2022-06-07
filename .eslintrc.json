@@ -41,6 +41,7 @@
                         "requireParamDescription": true,
                         "requireParamType": false,
                         "requireReturn": false,
+                        "requireReturnType": false,
                         "preferType": {
                             "String": "string",
                             "object": "object",

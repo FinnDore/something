@@ -6,6 +6,7 @@ import {
     NgModule
 } from '@angular/core';
 import { TuiButtonModule } from '@taiga-ui/core';
+import { loadStripe } from '@stripe/stripe-js';
 
 @Component({
     selector: 's-ui-item',
@@ -22,4 +23,11 @@ export class ItemComponent {
     declarations: [ItemComponent],
     exports: [ItemComponent]
 })
-export class ItemComponentModule {}
+export class ItemComponentModule {
+    /**
+     *
+     */
+    async setUp(): Promise<void> {
+        const stripe = await loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
+    }
+}
