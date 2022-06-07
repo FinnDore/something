@@ -1,3 +1,4 @@
+import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { Observable } from 'rxjs';
 import { Item } from '../models/item.model';
@@ -9,7 +10,7 @@ export interface ShopStoreState {
 const DEFAULT_STATE: ShopStoreState = {
     items: []
 };
-
+@Injectable()
 export class ShopStore extends ComponentStore<ShopStoreState> {
     /**
      * A list of items in the basket

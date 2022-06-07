@@ -5,8 +5,14 @@ import {
     Input,
     NgModule
 } from '@angular/core';
+import { ReactiveComponentModule } from '@ngrx/component';
 import { TuiButtonModule } from '@taiga-ui/core';
-import { loadStripe } from '@stripe/stripe-js';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { log, Unsubscribe, UnsubscribeModule } from '../../../../utils/src';
+import { BasketStore } from '../basket-store/basket.store';
+import { ItemStore } from '../item-store/item.store';
+import { AddToBasketDirectiveModule } from '../primatives/add-to-basket/add-to-basket.directive';
+import { ShopStore } from '../shop-store/shop.store';
 
 @Component({
     selector: 's-item',
@@ -14,20 +20,47 @@ import { loadStripe } from '@stripe/stripe-js';
     styleUrls: ['./item.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ItemComponent {
+export class ItemComponent extends Unsubscribe {
     @Input() price = 0;
-}
-
-@NgModule({
-    imports: [CommonModule, TuiButtonModule],
-    declarations: [ItemComponent],
-    exports: [ItemComponent]
-})
-export class ItemComponentModule {
     /**
      *
      */
     async setUp(): Promise<void> {
-        const stripe = await loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
+        this.shopStore.patchState({
+            items: [
+                {
+                    id: '1'
+                }
+            ]
+        });
+        this.itemStore.patchState({
+            selectedItemId: '1'
+        });
+        this.itemStore.item$.pipe(log()).subscribe();
+    }
+
+    /**
+     *
+     */
+    constructor(
+        public shopStore: ShopStore,
+        public basketStore: BasketStore,
+        public itemStore: ItemStore
+    ) {
+        super();
+        this.setUp();
     }
 }
+
+@NgModule({
+    imports: [
+        CommonModule,
+        TuiButtonModule,
+        ReactiveComponentModule,
+        UnsubscribeModule,
+        AddToBasketDirectiveModule
+    ],
+    declarations: [ItemComponent],
+    exports: [ItemComponent]
+})
+export class ItemComponentModule {}

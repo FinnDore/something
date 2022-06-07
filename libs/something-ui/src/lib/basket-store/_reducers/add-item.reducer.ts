@@ -10,9 +10,17 @@ export function addItem(
     state: BasketStoreState,
     itemId: string | string[]
 ): BasketStoreState {
-    const items =
-        typeof itemId === 'string'
-            ? [...state.items, itemId]
-            : [...state.items, ...itemId];
-    return { ...state, items };
+    const newItems = [...state.items];
+    for (const currentItemId of typeof itemId === 'string'
+        ? [itemId]
+        : itemId) {
+        const existingItem = newItems.find((x) => x.itemId === itemId);
+        if (existingItem) {
+            existingItem.quantity++;
+        } else {
+            newItems.push({ itemId: currentItemId, quantity: 0 });
+        }
+    }
+
+    return { ...state, items: newItems };
 }

@@ -1,22 +1,16 @@
-import {
-    ChangeDetectorRef,
-    ComponentRef,
-    Directive,
-    HostListener,
-    inject,
-    NgModule,
-    ViewRef
-} from '@angular/core';
+/* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import { CommonModule } from '@angular/common';
-import { Subject, takeUntil, tap, withLatestFrom } from 'rxjs';
-import { ItemStore } from '../../item-store/item.store';
+import { Directive, HostListener, NgModule } from '@angular/core';
+import { Subject, tap, withLatestFrom } from 'rxjs';
 import { BasketStore } from '../../basket-store/basket.store';
+import { ItemStore } from '../../item-store/item.store';
+import { log, Unsubscribe, UnsubscribeModule } from '@something/utils';
 
 @Directive({
     // eslint-disable-next-line @angular-eslint/directive-selector
     selector: '[s-add-to-basket]'
 })
-export class AddToBasketDirective {
+export class AddToBasketDirective extends Unsubscribe {
     private readonly addToBasket$ = new Subject<void>();
 
     /**
@@ -24,7 +18,10 @@ export class AddToBasketDirective {
      */
     private readonly addToBasket = this.addToBasket$.pipe(
         withLatestFrom(this.itemStore.itemId$),
-        tap(([, itemId]) => itemId !== null && this.basketStore.addItem(itemId))
+        tap(
+            ([, itemId]) => itemId !== null && this.basketStore.addItem(itemId)
+        ),
+        log()
     );
 
     /**
@@ -41,12 +38,13 @@ export class AddToBasketDirective {
         private basketStore: BasketStore,
         private itemStore: ItemStore
     ) {
+        super();
         this.addToBasket.subscribe();
     }
 }
 
 @NgModule({
-    imports: [CommonModule],
+    imports: [CommonModule, UnsubscribeModule],
     declarations: [AddToBasketDirective],
     exports: [AddToBasketDirective]
 })

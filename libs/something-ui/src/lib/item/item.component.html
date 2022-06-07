@@ -1,4 +1,7 @@
 <p>item price: {{ price }}</p>
-<button tuiButton type="button" appearance="primary" [showLoader]="true">
+<button tuiButton type="button" s-add-to-basket appearance="primary">
     Loading button
 </button>
+
+{{ itemStore.item$ | async | json }}
+{{ basketStore.items$ | async | json }}

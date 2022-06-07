@@ -1,4 +1,8 @@
+/* eslint-disable @nrwl/nx/enforce-module-boundaries */
+import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
+import { of, switchMap } from 'rxjs';
+import { log } from '../../../../utils/src';
 import { ShopStore } from '../shop-store/shop.store';
 
 export interface ItemStoreState {
@@ -9,6 +13,7 @@ const DEFAULT_STATE: ItemStoreState = {
     selectedItemId: null
 };
 
+@Injectable()
 export class ItemStore extends ComponentStore<ItemStoreState> {
     /**
      * The current item id
@@ -19,8 +24,12 @@ export class ItemStore extends ComponentStore<ItemStoreState> {
     /**
      * The current item
      */
-    public readonly item$ = this.select(({ selectedItemId }) =>
-        selectedItemId !== null ? this.shopStore.getItem(selectedItemId) : null
+    public readonly item$ = this.itemId$.pipe(
+        switchMap((selectedItemId) =>
+            selectedItemId !== null
+                ? this.shopStore.getItem(selectedItemId)
+                : of(null)
+        )
     );
 
     /**

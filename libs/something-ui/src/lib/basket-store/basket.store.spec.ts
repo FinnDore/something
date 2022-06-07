@@ -20,10 +20,18 @@ describe('BasketStoreService', () => {
     it('should return the given item with the given id', () => {
         testScheduler.run(({ expectObservable }) => {
             basketStore.patchState({
-                items: ['1', '2']
+                items: [
+                    { quantity: 1, itemId: '1' },
+                    { quantity: 1, itemId: '1' }
+                ]
             });
 
-            expectObservable(basketStore.items$).toBe('a', { a: ['1', '2'] });
+            expectObservable(basketStore.items$).toBe('a', {
+                a: [
+                    { quantity: 1, itemId: '1' },
+                    { quantity: 1, itemId: '2' }
+                ]
+            });
         });
     });
 });
