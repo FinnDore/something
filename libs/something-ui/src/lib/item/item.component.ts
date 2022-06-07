@@ -12,7 +12,7 @@ import { take } from 'rxjs';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { log, Unsubscribe, UnsubscribeModule } from '../../../../utils/src';
 import { BasketStore } from '../basket-store/basket.store';
-import { ItemStore } from '../item-store/item.store';
+import { ItemStore } from '../stores/item-store/item.store';
 import { AddToBasketDirectiveModule } from '../primatives/add-to-basket/add-to-basket.directive';
 import { ShopStore } from '../shop-store/shop.store';
 

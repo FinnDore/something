@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Directive, HostListener, NgModule } from '@angular/core';
 import { Subject, tap, withLatestFrom } from 'rxjs';
 import { BasketStore } from '../../basket-store/basket.store';
-import { ItemStore } from '../../item-store/item.store';
+import { ItemStore } from '../../stores/item-store/item.store';
 import { log, Unsubscribe, UnsubscribeModule } from '@something/utils';
 
 @Directive({

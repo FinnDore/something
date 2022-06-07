@@ -1,6 +1,6 @@
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
 import { BasketStore } from '../basket-store/basket.store';
-import { ItemStore } from '../item-store/item.store';
+import { ItemStore } from '../stores/item-store/item.store';
 import { ShopStore } from '../shop-store/shop.store';
 import { ItemComponent } from './item.component';
 
