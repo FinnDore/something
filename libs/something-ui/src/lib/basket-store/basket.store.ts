@@ -1,9 +1,8 @@
 import { ComponentStore } from '@ngrx/component-store';
-import { Observable } from 'rxjs';
-import { Item } from '../models/item.model';
+import { addItem } from './_reducers/add-item.reducer';
 
 export interface BasketStoreState {
-    items: Item[];
+    items: string[];
 }
 
 const DEFAULT_STATE: BasketStoreState = {
@@ -12,20 +11,15 @@ const DEFAULT_STATE: BasketStoreState = {
 
 export class BasketStore extends ComponentStore<BasketStoreState> {
     /**
-     * A list of items in the basket
+     * A list of item id's in the basket
      */
     public readonly items$ = this.select(({ items }) => items);
 
     /**
-     * Returns an an item given its id
-     * @param itemId the id of the item to return
-     * @returns the requested item
+     * Adds and item or items to the basket
+     * @param itemId the item id or ids of the item to add
      */
-    public getItem(itemId: string): Observable<Item | null> {
-        return this.select(
-            ({ items }) => items.find((item) => item?.id === itemId) ?? null
-        );
-    }
+    public readonly addItem = this.updater(addItem);
 
     /**
      * Constructor for BasketStore

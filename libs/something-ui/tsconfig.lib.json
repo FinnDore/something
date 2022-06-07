@@ -14,5 +14,5 @@
         "**/*.stories.ts",
         "**/*.stories.js"
     ],
-    "include": ["**/*.ts"]
+    "include": ["**/*.ts", "src/lib/basket-store/_reducers/add-item.spects"]
 }

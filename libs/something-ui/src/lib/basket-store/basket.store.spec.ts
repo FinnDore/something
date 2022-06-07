@@ -3,7 +3,7 @@ import { TestScheduler } from 'rxjs/testing';
 import { Item } from '../models/item.model';
 import { BasketStore } from './basket.store';
 
-const testScheduler = new TestScheduler((actual, expected) => 
+const testScheduler = new TestScheduler((actual, expected) =>
     expect(actual).toEqual(expected)
 );
 
@@ -19,14 +19,11 @@ describe('BasketStoreService', () => {
 
     it('should return the given item with the given id', () => {
         testScheduler.run(({ expectObservable }) => {
-            const item: Item = {
-                id: '1'
-            };
             basketStore.patchState({
-                items: [item]
+                items: ['1', '2']
             });
 
-            expectObservable(basketStore.getItem('1')).toBe('a', { a: item });
+            expectObservable(basketStore.items$).toBe('a', { a: ['1', '2'] });
         });
     });
 });

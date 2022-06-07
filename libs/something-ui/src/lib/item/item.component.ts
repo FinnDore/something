@@ -9,7 +9,7 @@ import { TuiButtonModule } from '@taiga-ui/core';
 import { loadStripe } from '@stripe/stripe-js';
 
 @Component({
-    selector: 's-ui-item',
+    selector: 's-item',
     templateUrl: './item.component.html',
     styleUrls: ['./item.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
