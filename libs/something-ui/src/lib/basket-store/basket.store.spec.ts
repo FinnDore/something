@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { TestScheduler } from 'rxjs/testing';
 import { Item } from '../models/item.model';
-import { BasketStore } from './basket-store.service';
+import { BasketStore } from './basket.store';
 
-const testScheduler = new TestScheduler((actual, expected) => {
-    expect(actual).toEqual(expected);
-});
+const testScheduler = new TestScheduler((actual, expected) => 
+    expect(actual).toEqual(expected)
+);
 
 describe('BasketStoreService', () => {
     let basketStore: BasketStore;
