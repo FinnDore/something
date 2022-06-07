@@ -2,8 +2,7 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { of, switchMap } from 'rxjs';
-import { log } from '../../../../../utils/src';
-import { ShopStore } from '../../shop-store/shop.store';
+import { ShopStore } from '../shop-store/shop.store';
 
 export interface ItemStoreState {
     selectedItemId: string | null;

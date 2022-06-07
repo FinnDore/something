@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { TestScheduler } from 'rxjs/testing';
 import { Item } from '../../models/item.model';
-import { ShopStore } from '../../shop-store/shop.store';
+import { ShopStore } from '../shop-store/shop.store';
 import { ItemStore } from './item.store';
 
 const testScheduler = new TestScheduler((actual, expected) =>
