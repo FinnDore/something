@@ -1,4 +1,5 @@
 /* eslint-disable */
+/* eslint-disable */
 export default {
     displayName: 'something-shop',
     preset: '../../jest.preset.js',

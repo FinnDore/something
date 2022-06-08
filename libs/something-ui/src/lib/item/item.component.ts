@@ -9,8 +9,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { loadStripe, Stripe } from '@stripe/stripe-js';
 import { TuiButtonModule } from '@taiga-ui/core';
 import { take } from 'rxjs';
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { log, Unsubscribe, UnsubscribeModule } from '../../../../utils/src';
+import { log, Unsubscribe, UnsubscribeModule } from '@something/utils';
 import { ItemStore } from '../stores/item-store/item.store';
 import { AddToBasketDirectiveModule } from '../primatives/add-to-basket/add-to-basket.directive';
 import { ItemDirectiveModule } from '../primatives/item/item.directive';

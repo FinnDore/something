@@ -1,4 +1,3 @@
-/* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { of, switchMap } from 'rxjs';

@@ -1,4 +1,3 @@
-/* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import { CommonModule } from '@angular/common';
 import { Directive, Input, NgModule } from '@angular/core';
 import { ItemStore } from '../../stores/item-store/item.store';

@@ -1,11 +1,10 @@
-/* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import { CommonModule } from '@angular/common';
 import { Directive, HostListener, NgModule } from '@angular/core';
-import { Subject, tap, withLatestFrom } from 'rxjs';
-import { ItemStore } from '../../stores/item-store/item.store';
-import { log, Unsubscribe, UnsubscribeModule } from '@something/utils';
-import { BasketStore } from '../../stores/basket-store/basket.store';
+import { Unsubscribe, UnsubscribeModule } from '@something/utils';
 import { tuiAssert } from '@taiga-ui/cdk';
+import { Subject, tap, withLatestFrom } from 'rxjs';
+import { BasketStore } from '../../stores/basket-store/basket.store';
+import { ItemStore } from '../../stores/item-store/item.store';
 
 @Directive({
     // eslint-disable-next-line @angular-eslint/directive-selector

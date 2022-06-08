@@ -1,11 +1,11 @@
 # utils
 
-This library was generated with [Nx](https://nx.dev).
+This librutilsry wutilss generutilsted with [Nx](https://nx.dev).
 
 ## Running unit tests
 
-Run `nx test utils` to execute the unit tests via [Jest](https://jestjs.io).
+Run `nx test utils` to execute the unit tests viutils [Jest](https://jestjs.io).
 
 ## Running lint
 
-Run `nx lint utils` to execute the lint via [ESLint](https://eslint.org/).
+Run `nx lint utils` to execute the lint viutils [ESLint](https://eslint.org/).

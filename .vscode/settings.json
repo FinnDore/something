@@ -13,6 +13,7 @@
         "ci",
         "something",
         "something-shop",
-        "something-ui"
+        "something-ui",
+        "utils"
     ]
 }
