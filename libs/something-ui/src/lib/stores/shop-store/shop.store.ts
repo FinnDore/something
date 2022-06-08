@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { Observable } from 'rxjs';
-import { Item } from '../models/item.model';
+import { Item } from '../../models/item.model';
 
 export interface ShopStoreState {
     items: Item[];

@@ -11,10 +11,11 @@ import { TuiButtonModule } from '@taiga-ui/core';
 import { take } from 'rxjs';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { log, Unsubscribe, UnsubscribeModule } from '../../../../utils/src';
-import { BasketStore } from '../basket-store/basket.store';
 import { ItemStore } from '../stores/item-store/item.store';
 import { AddToBasketDirectiveModule } from '../primatives/add-to-basket/add-to-basket.directive';
-import { ShopStore } from '../shop-store/shop.store';
+import { ItemDirectiveModule } from '../primatives/item/item.directive';
+import { BasketStore } from '../stores/basket-store/basket.store';
+import { ShopStore } from '../stores/shop-store/shop.store';
 
 @Component({
     selector: 's-item',
@@ -37,6 +38,9 @@ export class ItemComponent extends Unsubscribe {
             items: [
                 {
                     id: 'price_1L88f0KBi9YpHhPGJnB4uxjX'
+                },
+                {
+                    id: 'a'
                 }
             ]
         });
@@ -88,7 +92,8 @@ export class ItemComponent extends Unsubscribe {
         TuiButtonModule,
         ReactiveComponentModule,
         UnsubscribeModule,
-        AddToBasketDirectiveModule
+        AddToBasketDirectiveModule,
+        ItemDirectiveModule
     ],
     declarations: [ItemComponent],
     exports: [ItemComponent]

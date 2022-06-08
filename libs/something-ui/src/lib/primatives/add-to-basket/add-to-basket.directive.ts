@@ -2,9 +2,10 @@
 import { CommonModule } from '@angular/common';
 import { Directive, HostListener, NgModule } from '@angular/core';
 import { Subject, tap, withLatestFrom } from 'rxjs';
-import { BasketStore } from '../../basket-store/basket.store';
 import { ItemStore } from '../../stores/item-store/item.store';
 import { log, Unsubscribe, UnsubscribeModule } from '@something/utils';
+import { BasketStore } from '../../stores/basket-store/basket.store';
+import { tuiAssert } from '@taiga-ui/cdk';
 
 @Directive({
     // eslint-disable-next-line @angular-eslint/directive-selector
@@ -18,10 +19,15 @@ export class AddToBasketDirective extends Unsubscribe {
      */
     private readonly addToBasket = this.addToBasket$.pipe(
         withLatestFrom(this.itemStore.itemId$),
-        tap(
-            ([, itemId]) => itemId !== null && this.basketStore.addItem(itemId)
-        ),
-        log()
+        tap(([, itemId]) => {
+            tuiAssert.assert(
+                itemId !== null,
+                'Cannot add a null itemId to the basket'
+            );
+            if (itemId !== null) {
+                this.basketStore.addItem(itemId);
+            }
+        })
     );
 
     /**
