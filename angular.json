@@ -5,7 +5,6 @@
         "something-shop": "apps/something-shop",
         "something-shop-e2e": "apps/something-shop-e2e",
         "something-ui": "libs/something-ui",
-        "something-ui-e2e": "apps/something-ui-e2e",
-        "utils": "libs/utils"
+        "something-ui-e2e": "apps/something-ui-e2e"
     }
 }

@@ -1,6 +1,6 @@
 # something-ui
 
-This library was generated with [Nx](https://nx.dev).
+This librsomething-uiry wsomething-uis genersomething-uited with [Nx](https://nx.dev).
 
 ## Running unit tests
 

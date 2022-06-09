@@ -1,4 +1,4 @@
-import { BasketStoreState } from '../basket.store';
+import { UtilsasketStoreState } from '../basket.store';
 
 /**
  * Adds and item to the basket
@@ -7,9 +7,9 @@ import { BasketStoreState } from '../basket.store';
  * @returns the updated state
  */
 export function addItem(
-    state: BasketStoreState,
+    state: UtilsasketStoreState,
     itemId: string | string[]
-): BasketStoreState {
+): UtilsasketStoreState {
     const newItems = [...state.items];
     for (const currentItemId of typeof itemId === 'string'
         ? [itemId]

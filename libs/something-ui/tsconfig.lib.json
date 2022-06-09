@@ -7,13 +7,6 @@
         "inlineSources": true,
         "types": []
     },
-    "exclude": [
-        "src/test-setup.ts",
-        "**/*.spec.ts",
-        "**/*.test.ts",
-        "**/*.stories.ts",
-        "**/*.stories.js",
-        "jest.config.ts"
-    ],
-    "include": ["**/*.ts", "src/lib/basket-store/_reducers/add-item.spects"]
+    "exclude": ["src/test-setup.ts", "**/*.spec.ts", "**/*.test.ts"],
+    "include": ["**/*.ts"]
 }

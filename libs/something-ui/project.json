@@ -32,8 +32,8 @@
             "executor": "@nrwl/linter:eslint",
             "options": {
                 "lintFilePatterns": [
-                    "libs/something-ui/src/**/*.ts",
-                    "libs/something-ui/src/**/*.html"
+                    "libs/something-ui/**/*.ts",
+                    "libs/something-ui/**/*.html"
                 ]
             }
         },
@@ -67,5 +67,6 @@
             }
         }
     },
+
     "tags": []
 }

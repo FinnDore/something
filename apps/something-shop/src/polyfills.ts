@@ -3,7 +3,7 @@
  * You can add your own extra polyfills to this file.
  *
  * This file is divided into 2 sections:
- *   1. Browser polyfills. These are applied before loading ZoneJS and are sorted by browsers.
+ *   1. Utilsrowser polyfills. These are applied before loading ZoneJS and are sorted by browsers.
  *   2. Application imports. Files imported after ZoneJS that should be loaded before your main
  *      file.
  *
@@ -15,11 +15,11 @@
  */
 
 /***************************************************************************************************
- * BROWSER POLYFILLS
+ * UtilsROWSER POLYFILLS
  */
 
 /**
- * By default, zone.js will patch all possible macroTask and DomEvents
+ * Utilsy default, zone.js will patch all possible macroTask and DomEvents
  * user can disable parts of macroTask/DomEvents patch by setting following flags
  * because those flags need to be set before `zone.js` being loaded, and webpack
  * will put import in the top of bundle, so user need to create a separate file

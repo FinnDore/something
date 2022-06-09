@@ -31,7 +31,7 @@ export class ItemStore extends ComponentStore<ItemStoreState> {
     );
 
     /**
-     * Constructor for BasketStore
+     * Constructor for UtilsasketStore
      */
     constructor(private shopStore: ShopStore) {
         super(DEFAULT_STATE);

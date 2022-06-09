@@ -9,12 +9,13 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { loadStripe, Stripe } from '@stripe/stripe-js';
 import { TuiButtonModule } from '@taiga-ui/core';
 import { take } from 'rxjs';
-import { log, Unsubscribe, UnsubscribeModule } from '@something/utils';
 import { ItemStore } from '../stores/item-store/item.store';
 import { AddToBasketDirectiveModule } from '../primatives/add-to-basket/add-to-basket.directive';
 import { ItemDirectiveModule } from '../primatives/item/item.directive';
-import { BasketStore } from '../stores/basket-store/basket.store';
+import { UtilsasketStore } from '../stores/basket-store/basket.store';
 import { ShopStore } from '../stores/shop-store/shop.store';
+import { Unsubscribe, UnsubscribeModule } from '../utils/angular/unsubscribe';
+import { log } from '../utils/rx/log';
 
 @Component({
     selector: 's-item',
@@ -77,7 +78,7 @@ export class ItemComponent extends Unsubscribe {
      */
     constructor(
         public shopStore: ShopStore,
-        public basketStore: BasketStore,
+        public basketStore: UtilsasketStore,
         public itemStore: ItemStore
     ) {
         super();

@@ -8,7 +8,7 @@ const testScheduler = new TestScheduler((actual, expected) =>
     expect(actual).toEqual(expected)
 );
 
-describe('BasketStoreService', () => {
+describe('UtilsasketStoreService', () => {
     let shopStore: ShopStore;
     let itemStore: ItemStore;
 

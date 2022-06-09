@@ -7,7 +7,7 @@ import { ItemStore } from '../../stores/item-store/item.store';
     selector: '[s-item]',
     providers: [ItemStore]
 })
-export class ItemDirective {
+class ItemDirective {
     /**
      *
      * @param selectedItemId the current item

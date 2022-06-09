@@ -29,7 +29,7 @@ export class ShopStore extends ComponentStore<ShopStoreState> {
     }
 
     /**
-     * Constructor for BasketStore
+     * Constructor for UtilsasketStore
      */
     constructor() {
         super(DEFAULT_STATE);

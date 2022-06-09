@@ -1,10 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Directive, HostListener, NgModule } from '@angular/core';
-import { Unsubscribe, UnsubscribeModule } from '@something/utils';
 import { tuiAssert } from '@taiga-ui/cdk';
 import { Subject, tap, withLatestFrom } from 'rxjs';
-import { BasketStore } from '../../stores/basket-store/basket.store';
+import { UtilsasketStore } from '../../stores/basket-store/basket.store';
 import { ItemStore } from '../../stores/item-store/item.store';
+import {
+    Unsubscribe,
+    UnsubscribeModule
+} from '../../utils/angular/unsubscribe';
 
 @Directive({
     // eslint-disable-next-line @angular-eslint/directive-selector
@@ -40,7 +43,7 @@ export class AddToBasketDirective extends Unsubscribe {
      * Constructor for AddToBasketDirective
      */
     constructor(
-        private basketStore: BasketStore,
+        private basketStore: UtilsasketStore,
         private itemStore: ItemStore
     ) {
         super();
