@@ -24,9 +24,11 @@ describe('AddToBasketDirective', () => {
             declarations: [TestComponent, AddToBasketDirective],
             providers: [ShopStore, BasketStore, ItemStore]
         }).compileComponents();
+
         fixture = TestBed.createComponent(TestComponent);
         shopStore = TestBed.inject(ShopStore);
         itemStore = TestBed.inject(ItemStore);
+
         const basketStore = TestBed.inject(BasketStore);
         basketStoreSpy = jest.spyOn(basketStore, 'addItem');
 
