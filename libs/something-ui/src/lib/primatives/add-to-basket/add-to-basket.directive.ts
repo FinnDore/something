@@ -22,13 +22,11 @@ export class AddToBasketDirective extends Unsubscribe {
     private readonly addToBasket = this.addToBasket$.pipe(
         withLatestFrom(this.itemStore.itemId$),
         tap(([, itemId]) => {
-            console.log('trying to add');
             tuiAssert.assert(
                 itemId !== null,
                 'Cannot add a null itemId to the basket'
             );
             if (itemId !== null) {
-                console.log('add item:', itemId);
                 this.basketStore.addItem(itemId);
             }
         })

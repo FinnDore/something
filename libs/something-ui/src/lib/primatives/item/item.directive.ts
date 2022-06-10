@@ -12,8 +12,10 @@ export class ItemDirective {
      *
      * @param selectedItemId the current item
      */
-    @Input('s-item') set item(selectedItemId: string) {
-        this.itemStore.patchState({ selectedItemId: selectedItemId });
+    @Input('s-item') set item(selectedItemId: string | null) {
+        if (selectedItemId !== null) {
+            this.itemStore.patchState({ selectedItemId });
+        }
     }
 
     /**
