@@ -12,7 +12,7 @@ import { take } from 'rxjs';
 import { ItemStore } from '../stores/item-store/item.store';
 import { AddToBasketDirectiveModule } from '../primatives/add-to-basket/add-to-basket.directive';
 import { ItemDirectiveModule } from '../primatives/item/item.directive';
-import { UtilsasketStore } from '../stores/basket-store/basket.store';
+import { BasketStore } from '../stores/basket-store/basket.store';
 import { ShopStore } from '../stores/shop-store/shop.store';
 import { Unsubscribe, UnsubscribeModule } from '../utils/angular/unsubscribe';
 import { log } from '../utils/rx/log';
@@ -63,7 +63,7 @@ export class ItemComponent extends Unsubscribe {
             return;
         }
         await this.stripe.redirectToCheckout({
-            lineItems: items.map(({ itemId, quantity }) => ({
+            lineItems: items.map(({ itemId: itemId, quantity }) => ({
                 price: itemId,
                 quantity
             })),
@@ -78,7 +78,7 @@ export class ItemComponent extends Unsubscribe {
      */
     constructor(
         public shopStore: ShopStore,
-        public basketStore: UtilsasketStore,
+        public basketStore: BasketStore,
         public itemStore: ItemStore
     ) {
         super();

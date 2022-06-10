@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
-import { addItem } from './_reducers/add-item.reducer';
+import { addItemReducer } from './_reducers/add-item.reducer';
 
-export interface UtilsasketStoreState {
+export interface BasketStoreState {
     items: {
         quantity: number;
         itemId: string;
     }[];
 }
 
-const DEFAULT_STATE: UtilsasketStoreState = {
+const DEFAULT_STATE: BasketStoreState = {
     items: []
 };
 
 @Injectable()
-export class UtilsasketStore extends ComponentStore<UtilsasketStoreState> {
+export class BasketStore extends ComponentStore<BasketStoreState> {
     /**
      * A list of item id's in the basket
      */
@@ -24,10 +24,10 @@ export class UtilsasketStore extends ComponentStore<UtilsasketStoreState> {
      * Adds and item or items to the basket
      * @param itemId the item id or ids of the item to add
      */
-    public readonly addItem = this.updater(addItem);
+    public readonly addItem = this.updater(addItemReducer);
 
     /**
-     * Constructor for UtilsasketStore
+     * Constructor for BasketStore
      */
     constructor() {
         super(DEFAULT_STATE);

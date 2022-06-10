@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Directive, HostListener, NgModule } from '@angular/core';
 import { tuiAssert } from '@taiga-ui/cdk';
 import { Subject, tap, withLatestFrom } from 'rxjs';
-import { UtilsasketStore } from '../../stores/basket-store/basket.store';
+import { BasketStore } from '../../stores/basket-store/basket.store';
 import { ItemStore } from '../../stores/item-store/item.store';
 import {
     Unsubscribe,
@@ -43,7 +43,7 @@ export class AddToBasketDirective extends Unsubscribe {
      * Constructor for AddToBasketDirective
      */
     constructor(
-        private basketStore: UtilsasketStore,
+        private basketStore: BasketStore,
         private itemStore: ItemStore
     ) {
         super();
