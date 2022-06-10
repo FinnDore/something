@@ -10,7 +10,7 @@ import { loadStripe, Stripe } from '@stripe/stripe-js';
 import { TuiButtonModule } from '@taiga-ui/core';
 import { take } from 'rxjs';
 import { ItemStore } from '../stores/item-store/item.store';
-import { AddToBasketDirectiveModule } from '../primatives/add-to-basket/add-to-basket.directive';
+import { AddToBasketDirectiveModule } from '../primatives/add-to-basket/primitives';
 import { ItemDirectiveModule } from '../primatives/item/item.directive';
 import { BasketStore } from '../stores/basket-store/basket.store';
 import { ShopStore } from '../stores/shop-store/shop.store';

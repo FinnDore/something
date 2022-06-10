@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { BasketStore } from '../../stores/basket-store/basket.store';
 import { ItemStore } from '../../stores/item-store/item.store';
 import { ShopStore } from '../../stores/shop-store/shop.store';
-import { AddToBasketDirective } from './add-to-basket.directive';
+import { AddToBasketDirective } from './primitives';
 
 @Component({
     selector: 's-test-component',
