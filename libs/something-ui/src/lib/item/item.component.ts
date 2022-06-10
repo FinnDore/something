@@ -37,10 +37,10 @@ export class ItemComponent extends Unsubscribe {
         this.shopStore.patchState({
             items: [
                 {
-                    id: 'price_1L88f0KBi9YpHhPGJnB4uxjX'
+                    itemId: 'price_1L88f0KBi9YpHhPGJnB4uxjX'
                 },
                 {
-                    id: 'a'
+                    itemId: 'a'
                 }
             ]
         });

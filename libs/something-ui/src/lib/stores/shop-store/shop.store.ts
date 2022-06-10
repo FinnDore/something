@@ -24,7 +24,7 @@ export class ShopStore extends ComponentStore<ShopStoreState> {
      */
     public getItem(itemId: string): Observable<Item | null> {
         return this.select(
-            ({ items }) => items.find((item) => item?.id === itemId) ?? null
+            ({ items }) => items.find(item => item?.itemId === itemId) ?? null
         );
     }
 
