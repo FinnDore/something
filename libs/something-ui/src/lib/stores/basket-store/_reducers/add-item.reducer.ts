@@ -1,6 +1,6 @@
 import { BasketStoreState } from '../basket.store';
 import { getNormalizedItems } from '../_functions/get-normalized-Items.function';
-import { itemInput } from '../_models/item-input.model';
+import { ItemInput } from '../_models/item-input.model';
 
 /**
  * Adds and item to the basket
@@ -10,7 +10,7 @@ import { itemInput } from '../_models/item-input.model';
  */
 export function addItemReducer(
     state: BasketStoreState,
-    itemId: itemInput | itemInput[]
+    itemId: ItemInput | ItemInput[]
 ): BasketStoreState {
     const newItems = [...state.items];
     for (const currentItem of getNormalizedItems(itemId)) {

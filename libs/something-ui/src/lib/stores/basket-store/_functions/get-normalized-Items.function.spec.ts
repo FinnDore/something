@@ -1,30 +1,30 @@
-import { itemInput } from '../_models/item-input.model';
+import { ItemInput } from '../_models/item-input.model';
 import { getNormalizedItems } from './get-normalized-Items.function';
 
 describe('getNormalizedItems', () => {
     it('should normalize a string', () => {
-        const item: itemInput = '1';
+        const item: ItemInput = '1';
         expect(getNormalizedItems(item)).toEqual([
             { itemId: '1', quantity: 1 }
         ]);
     });
 
     it('should normalize a object', () => {
-        const item: itemInput = { itemId: '1', quantity: 1 };
+        const item: ItemInput = { itemId: '1', quantity: 1 };
         expect(getNormalizedItems(item)).toEqual([
             { itemId: '1', quantity: 1 }
         ]);
     });
 
     it('should normalize a object with a non 1 quantity', () => {
-        const item: itemInput = { itemId: '1', quantity: 5 };
+        const item: ItemInput = { itemId: '1', quantity: 5 };
         expect(getNormalizedItems(item)).toEqual([
             { itemId: '1', quantity: 5 }
         ]);
     });
 
     it('should normalize a list of strings', () => {
-        const items: itemInput[] = ['1', '2', '3', '1'];
+        const items: ItemInput[] = ['1', '2', '3', '1'];
         expect(getNormalizedItems(items)).toEqual([
             { itemId: '1', quantity: 1 },
             { itemId: '2', quantity: 1 },
@@ -34,7 +34,7 @@ describe('getNormalizedItems', () => {
     });
 
     it('should normalize a list of objects', () => {
-        const items: itemInput[] = [
+        const items: ItemInput[] = [
             { itemId: '1', quantity: 1 },
             { itemId: '2', quantity: 5 },
             { itemId: '3', quantity: 4 },
@@ -49,7 +49,7 @@ describe('getNormalizedItems', () => {
     });
 
     it('should normalize a list of objects and ids', () => {
-        const items: itemInput[] = [
+        const items: ItemInput[] = [
             { itemId: '1', quantity: 1 },
             '2',
             { itemId: '3', quantity: 4 },

@@ -1,1 +1,1 @@
-export type itemInput = string | { itemId: string; quantity: number };
+export type ItemInput = string | { itemId: string; quantity: number };

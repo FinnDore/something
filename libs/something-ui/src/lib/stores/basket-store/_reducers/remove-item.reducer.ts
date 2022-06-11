@@ -1,9 +1,9 @@
 import { BasketStoreState } from '../basket.store';
 import { getNormalizedItems } from '../_functions/get-normalized-Items.function';
-import { itemInput } from '../_models/item-input.model';
+import { ItemInput } from '../_models/item-input.model';
 
 type InputWithConfig = {
-    itemId: itemInput | itemInput[];
+    itemId: ItemInput | ItemInput[];
     ignoreQuantity: boolean;
 };
 
@@ -15,11 +15,11 @@ type InputWithConfig = {
  */
 export function removeItemReducer(
     state: BasketStoreState,
-    itemId: itemInput | itemInput[] | InputWithConfig
+    itemId: ItemInput | ItemInput[] | InputWithConfig
 ): BasketStoreState {
     const newItems = [...state.items];
     let ignoreQuantity = false;
-    let extractedItemIds: itemInput | itemInput[] = [];
+    let extractedItemIds: ItemInput | ItemInput[] = [];
 
     // Strip potential config values
     if (typeof itemId === 'string') {

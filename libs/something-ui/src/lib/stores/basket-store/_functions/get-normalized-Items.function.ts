@@ -1,4 +1,4 @@
-import { itemInput } from '../_models/item-input.model';
+import { ItemInput } from '../_models/item-input.model';
 
 /**
  * Takes the itemInput and turns it into a consistent format
@@ -6,7 +6,7 @@ import { itemInput } from '../_models/item-input.model';
  * @returns the itemInput input in a consistent format
  */
 export function getNormalizedItems(
-    itemId: itemInput | itemInput[]
+    itemId: ItemInput | ItemInput[]
 ): { itemId: string; quantity: number }[] {
     if (!Array.isArray(itemId)) {
         return [typeof itemId === 'string' ? { quantity: 1, itemId } : itemId];
