@@ -23,7 +23,7 @@ export class ItemStore extends ComponentStore<ItemStoreState> {
      * The current item
      */
     public readonly item$ = this.itemId$.pipe(
-        switchMap((selectedItemId) =>
+        switchMap(selectedItemId =>
             selectedItemId !== null
                 ? this.shopStore.getItem(selectedItemId)
                 : of(null)
@@ -31,7 +31,7 @@ export class ItemStore extends ComponentStore<ItemStoreState> {
     );
 
     /**
-     * Constructor for UtilsasketStore
+     * Constructor for ItemStore
      */
     constructor(private shopStore: ShopStore) {
         super(DEFAULT_STATE);

@@ -37,14 +37,14 @@ export class RemoveFromBasketDirective extends Unsubscribe {
     @Input() sIgnoreQuantity = false;
 
     /**
-     * Add the current item to the basket when the host element is clicked
+     * Remove the current item from the basket when the host element is clicked
      */
     @HostListener('click') click(): void {
         this.removeFromBasket$.next();
     }
 
     /**
-     * Constructor for AddToBasketDirective
+     * Constructor for RemoveFromBasketDirective
      */
     constructor(
         private basketStore: BasketStore,
