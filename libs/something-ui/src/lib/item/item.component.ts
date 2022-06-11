@@ -52,9 +52,7 @@ export class ItemComponent extends Unsubscribe {
 
     /** */
     async checkout(): Promise<void> {
-        console.log(this.stripe);
         if (!this.stripe) {
-            console.log('no stripe');
             return;
         }
 

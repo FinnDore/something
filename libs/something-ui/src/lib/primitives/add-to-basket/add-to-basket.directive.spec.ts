@@ -8,7 +8,7 @@ import { AddToBasketDirective } from './primitives';
 
 @Component({
     selector: 's-test-component',
-    template: '<button s-add-to-basket></button>'
+    template: `<button s-add-to-basket></button>`
 })
 class TestComponent {}
 

@@ -8,5 +8,6 @@ import { MonoTypeOperatorFunction, pipe, tap } from 'rxjs';
 export function log<T>(
     valueToAlsoLog?: object | number | string | boolean
 ): MonoTypeOperatorFunction<T> {
+    // eslint-disable-next-line no-console
     return pipe(tap(val => console.log(valueToAlsoLog, val)));
 }

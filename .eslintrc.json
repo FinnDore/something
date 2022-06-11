@@ -31,6 +31,7 @@
             "extends": ["plugin:@nrwl/nx/javascript"],
             "rules": {}
         },
+
         {
             "files": ["*.ts", "*.tsx"],
             "rules": {
@@ -62,7 +63,8 @@
                             "ClassDeclaration": false
                         }
                     }
-                ]
+                ],
+                "no-console": "warn"
             }
         }
     ]
