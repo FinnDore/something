@@ -1,5 +1,4 @@
-import { CommonModule } from '@angular/common';
-import { Directive, HostListener, NgModule } from '@angular/core';
+import { Directive, HostListener, Input, NgModule } from '@angular/core';
 import { tuiAssert } from '@taiga-ui/cdk';
 import { Subject, tap, withLatestFrom } from 'rxjs';
 import { BasketStore } from '../../stores/basket-store/basket.store';
@@ -11,32 +10,37 @@ import {
 
 @Directive({
     // eslint-disable-next-line @angular-eslint/directive-selector
-    selector: '[s-add-to-basket]'
+    selector: '[s-remove-from-basket]'
 })
-export class AddToBasketDirective extends Unsubscribe {
-    private readonly addToBasket$ = new Subject<void>();
+export class RemoveFromBasketDirective extends Unsubscribe {
+    private readonly removeFromBasket$ = new Subject<void>();
 
     /**
-     * Add the current item to the basket
+     * Removes the current item from the basket
      */
-    private readonly addToBasket = this.addToBasket$.pipe(
+    private readonly removeFromBasket = this.removeFromBasket$.pipe(
         withLatestFrom(this.itemStore.itemId$),
         tap(([, itemId]) => {
             tuiAssert.assert(
                 itemId !== null,
-                'Cannot add a null itemId to the basket'
+                'Cannot remove a null itemId from the basket'
             );
             if (itemId !== null) {
-                this.basketStore.addItem(itemId);
+                this.basketStore.removeItem({
+                    itemId,
+                    ignoreQuantity: this.sIgnoreQuantity
+                });
             }
         })
     );
+
+    @Input() sIgnoreQuantity = false;
 
     /**
      * Add the current item to the basket when the host element is clicked
      */
     @HostListener('click') click(): void {
-        this.addToBasket$.next();
+        this.removeFromBasket$.next();
     }
 
     /**
@@ -47,13 +51,13 @@ export class AddToBasketDirective extends Unsubscribe {
         private itemStore: ItemStore
     ) {
         super();
-        this.addToBasket.subscribe();
+        this.removeFromBasket.subscribe();
     }
 }
 
 @NgModule({
-    imports: [CommonModule, UnsubscribeModule],
-    declarations: [AddToBasketDirective],
-    exports: [AddToBasketDirective]
+    imports: [UnsubscribeModule],
+    declarations: [RemoveFromBasketDirective],
+    exports: [RemoveFromBasketDirective]
 })
-export class AddToBasketDirectiveModule {}
+export class RemoveFromBasketModule {}

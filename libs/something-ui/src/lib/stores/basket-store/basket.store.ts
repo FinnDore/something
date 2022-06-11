@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { addItemReducer } from './_reducers/add-item.reducer';
+import { removeItemReducer } from './_reducers/remove-item.reducer';
 
 export interface BasketStoreState {
     items: {
@@ -30,7 +31,7 @@ export class BasketStore extends ComponentStore<BasketStoreState> {
      * Removes an item or items from  the basket
      * @param itemId the itemId or ids of the item to remove
      */
-    public readonly removeItem = this.updater(addItemReducer);
+    public readonly removeItem = this.updater(removeItemReducer);
 
     /**
      * Constructor for BasketStore

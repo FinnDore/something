@@ -4,23 +4,27 @@ import { By } from '@angular/platform-browser';
 import { BasketStore } from '../../stores/basket-store/basket.store';
 import { ItemStore } from '../../stores/item-store/item.store';
 import { ShopStore } from '../../stores/shop-store/shop.store';
-import { AddToBasketDirectiveModule } from './add-to-basket.directive';
+import {
+    RemoveFromBasketDirective,
+    RemoveFromBasketModule
+} from './remove-from-basket.directive';
 
 @Component({
     selector: 's-test-component',
-    template: `<button s-add-to-basket></button>`
+    template: `<button s-remove-from-basket></button>`
 })
 class TestComponent {}
 
-describe('AddToBasketDirective', () => {
+describe('RemoveFromBasketDirective', () => {
     let basketStoreSpy: jest.SpyInstance;
     let fixture: ComponentFixture<TestComponent>;
     let itemStore: ItemStore;
     let button: HTMLButtonElement;
+    let directive: RemoveFromBasketDirective;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [AddToBasketDirectiveModule],
+            imports: [RemoveFromBasketModule],
             declarations: [TestComponent],
             providers: [ShopStore, BasketStore, ItemStore]
         }).compileComponents();
@@ -29,12 +33,15 @@ describe('AddToBasketDirective', () => {
         itemStore = TestBed.inject(ItemStore);
 
         const basketStore = TestBed.inject(BasketStore);
-        basketStoreSpy = jest.spyOn(basketStore, 'addItem');
+        basketStoreSpy = jest.spyOn(basketStore, 'removeItem');
 
         button = fixture.debugElement.query(By.css('button')).nativeElement;
+        directive = fixture.debugElement.query(
+            By.directive(RemoveFromBasketDirective)
+        ).componentInstance;
     });
 
-    it('should add the current item to the basket', () => {
+    it('should remove the current item from the basket', () => {
         itemStore.patchState({
             selectedItemId: '1'
         });
@@ -42,17 +49,23 @@ describe('AddToBasketDirective', () => {
         button.click();
 
         expect(basketStoreSpy).toHaveBeenCalledTimes(1);
-        expect(basketStoreSpy).toBeCalledWith('1');
+        expect(basketStoreSpy).toBeCalledWith({
+            itemId: '1',
+            ignoreQuantity: false
+        });
     });
 
-    it('should add the current item to the basket after it has changed', () => {
+    it('should remove the current item from the basket after it has changed', () => {
         itemStore.patchState({
             selectedItemId: '1'
         });
         button.click();
 
         expect(basketStoreSpy).toHaveBeenCalledTimes(1);
-        expect(basketStoreSpy).toBeCalledWith('1');
+        expect(basketStoreSpy).toBeCalledWith({
+            itemId: '1',
+            ignoreQuantity: false
+        });
 
         itemStore.patchState({
             selectedItemId: '2'
@@ -60,7 +73,25 @@ describe('AddToBasketDirective', () => {
         button.click();
 
         expect(basketStoreSpy).toHaveBeenCalledTimes(2);
-        expect(basketStoreSpy).toBeCalledWith('2');
+        expect(basketStoreSpy).toBeCalledWith({
+            itemId: '2',
+            ignoreQuantity: false
+        });
+    });
+
+    it('should call remove item with the ignore quantity value set to true', () => {
+        itemStore.patchState({
+            selectedItemId: '1'
+        });
+        directive.sIgnoreQuantity = true;
+
+        button.click();
+
+        expect(basketStoreSpy).toHaveBeenCalledTimes(1);
+        expect(basketStoreSpy).toBeCalledWith({
+            itemId: '1',
+            ignoreQuantity: true
+        });
     });
 
     it('should not add and item if the item is null', () => {
