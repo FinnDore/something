@@ -1,6 +1,6 @@
 import { BasketStoreState } from '../basket.store';
-
-export type itemInput = string | { itemId: string; quantity: number };
+import { getNormalizedItems } from '../_functions/get-normalized-Items.function';
+import { itemInput } from '../_models/item-input.model';
 
 /**
  * Adds and item to the basket
@@ -13,7 +13,7 @@ export function addItemReducer(
     itemId: itemInput | itemInput[]
 ): BasketStoreState {
     const newItems = [...state.items];
-    for (const currentItem of getItemsToAdd(itemId)) {
+    for (const currentItem of getNormalizedItems(itemId)) {
         const existingItem = newItems.find(
             x => x.itemId === currentItem.itemId
         );
@@ -26,30 +26,4 @@ export function addItemReducer(
     }
 
     return { ...state, items: newItems };
-}
-
-/**
- * Takes the itemId input and turns it into a consistent format
- * @param itemId the itemId input
- * @returns the itemId input in a consistent format
- */
-function getItemsToAdd(
-    itemId: itemInput | itemInput[]
-): { itemId: string; quantity: number }[] {
-    if (!Array.isArray(itemId)) {
-        return [typeof itemId === 'string' ? { quantity: 1, itemId } : itemId];
-    }
-
-    if (!itemId.length) {
-        return [];
-    }
-
-    return itemId.map(currentItem =>
-        typeof currentItem === 'string'
-            ? {
-                  quantity: 1,
-                  itemId: currentItem
-              }
-            : currentItem
-    );
 }

@@ -16,15 +16,21 @@ const DEFAULT_STATE: BasketStoreState = {
 @Injectable()
 export class BasketStore extends ComponentStore<BasketStoreState> {
     /**
-     * A list of item id's in the basket
+     * A list of item ids in the basket
      */
     public readonly items$ = this.select(({ items }) => items);
 
     /**
-     * Adds and item or items to the basket
-     * @param itemId the item id or ids of the item to add
+     * Adds an item or items to the basket
+     * @param itemId the itemId or ids of the item to add
      */
     public readonly addItem = this.updater(addItemReducer);
+
+    /**
+     * Removes an item or items from  the basket
+     * @param itemId the itemId or ids of the item to remove
+     */
+    public readonly removeItem = this.updater(addItemReducer);
 
     /**
      * Constructor for BasketStore
