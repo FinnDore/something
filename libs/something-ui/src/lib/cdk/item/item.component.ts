@@ -5,7 +5,7 @@ import {
     Input,
     NgModule
 } from '@angular/core';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, ReactiveComponentModule } from '@ngrx/component';
 import { loadStripe, Stripe } from '@stripe/stripe-js';
 import { TuiButtonModule } from '@taiga-ui/core';
 import { take } from 'rxjs';
@@ -16,6 +16,7 @@ import { BasketStore } from '../stores/basket-store/basket.store';
 import { ShopStore } from '../stores/shop-store/shop.store';
 import { Unsubscribe, UnsubscribeModule } from '../utils/angular/unsubscribe';
 import { log } from '../utils/rx/log';
+import { RemoveFromBasketModule } from '../primitives/remove-from-basket';
 
 @Component({
     selector: 's-item',
@@ -88,9 +89,9 @@ export class ItemComponent extends Unsubscribe {
     imports: [
         CommonModule,
         TuiButtonModule,
-        ReactiveComponentModule,
         UnsubscribeModule,
         AddToBasketDirectiveModule,
+        RemoveFromBasketModule,
         ItemDirectiveModule
     ],
     declarations: [ItemComponent],

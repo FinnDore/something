@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BasketStore } from '../../stores/basket-store/basket.store';
@@ -11,21 +11,25 @@ import {
 
 @Component({
     selector: 's-test-component',
-    template: `<button s-remove-from-basket></button>`
+    template: `<button s-remove-from-basket></button>`,
+    standalone: true,
+    imports: [RemoveFromBasketModule]
 })
-class TestComponent {}
+class TestComponent {
+    @ViewChild(RemoveFromBasketDirective)
+    public removeFromBasketDirective: RemoveFromBasketDirective | null = null;
+}
 
 describe('RemoveFromBasketDirective', () => {
     let basketStoreSpy: jest.SpyInstance;
     let fixture: ComponentFixture<TestComponent>;
     let itemStore: ItemStore;
     let button: HTMLButtonElement;
-    let directive: RemoveFromBasketDirective;
+    let component: TestComponent;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [RemoveFromBasketModule],
-            declarations: [TestComponent],
+            imports: [TestComponent],
             providers: [ShopStore, BasketStore, ItemStore]
         }).compileComponents();
 
@@ -36,9 +40,7 @@ describe('RemoveFromBasketDirective', () => {
         basketStoreSpy = jest.spyOn(basketStore, 'removeItem');
 
         button = fixture.debugElement.query(By.css('button')).nativeElement;
-        directive = fixture.debugElement.query(
-            By.directive(RemoveFromBasketDirective)
-        ).componentInstance;
+        component = fixture.componentInstance;
     });
 
     it('should remove the current item from the basket', () => {
@@ -83,7 +85,11 @@ describe('RemoveFromBasketDirective', () => {
         itemStore.patchState({
             selectedItemId: '1'
         });
-        directive.sIgnoreQuantity = true;
+        fixture.debugElement.injector.get(ChangeDetectorRef).detectChanges();
+
+        if (component.removeFromBasketDirective) {
+            component.removeFromBasketDirective.sIgnoreQuantity = true;
+        }
 
         button.click();
 

@@ -1,13 +1,8 @@
 <p>item price: {{ price }}</p>
-<button tuiButton type="button" s-add-to-basket appearance="primary">
-    add item
-</button>
+<button type="button" s-add-to-basket appearance="primary">add item</button>
 
 <button (click)="checkout()">checkout</button>
 
 <div>
-    {{ itemStore.item$ | async | json }}
-</div>
-<div>
-    <button s-add-to-basket>add item mate</button>
+    {{ basketStore.items$ | async | json }}
 </div>
