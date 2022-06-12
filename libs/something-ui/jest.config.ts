@@ -1,5 +1,6 @@
-module.exports = {
-    displayName: 'something-shop',
+/* eslint-disable */
+export default {
+    displayName: 'something-ui',
     preset: '../../jest.preset.js',
     setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
     globals: {
@@ -8,7 +9,7 @@ module.exports = {
             stringifyContentPathRegex: '\\.(html|svg)$'
         }
     },
-    coverageDirectory: '../../coverage/apps/something-shop',
+    coverageDirectory: '../../coverage/libs/something-ui',
     transform: {
         '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular'
     },

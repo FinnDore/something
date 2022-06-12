@@ -1,4 +1,7 @@
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
+import { BasketStore } from '../stores/basket-store/basket.store';
+import { ItemStore } from '../stores/item-store/item.store';
+import { ShopStore } from '../stores/shop-store/shop.store';
 import { ItemComponent } from './item.component';
 
 export default {
@@ -6,7 +9,8 @@ export default {
     component: ItemComponent,
     decorators: [
         moduleMetadata({
-            imports: []
+            imports: [],
+            providers: [ShopStore, BasketStore, ItemStore]
         })
     ],
     argTypes: {

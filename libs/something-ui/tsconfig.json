@@ -8,12 +8,10 @@
         },
         {
             "path": "./tsconfig.spec.json"
-        },
-        {
-            "path": "./.storybook/tsconfig.json"
         }
     ],
     "compilerOptions": {
+        "target": "es2020",
         "forceConsistentCasingInFileNames": true,
         "strict": true,
         "noImplicitOverride": true,
@@ -22,6 +20,7 @@
         "noFallthroughCasesInSwitch": true
     },
     "angularCompilerOptions": {
+        "enableI18nLegacyMessageIdFormat": false,
         "strictInjectionParameters": true,
         "strictInputAccessModifiers": true,
         "strictTemplates": true

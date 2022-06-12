@@ -1,34 +1,28 @@
 {
-  "root": "apps/something-ui-e2e",
-  "sourceRoot": "apps/something-ui-e2e/src",
-  "projectType": "application",
-  "targets": {
-    "e2e": {
-      "executor": "@nrwl/cypress:cypress",
-      "options": {
-        "cypressConfig": "apps/something-ui-e2e/cypress.json",
-        "devServerTarget": "something-ui:storybook"
-      },
-      "configurations": {
-        "ci": {
-          "devServerTarget": "something-ui:storybook:ci"
+    "$schema": "..\\..\\node_modules\\nx\\schemas\\project-schema.json",
+    "sourceRoot": "apps/something-ui-e2e/src",
+    "projectType": "application",
+    "targets": {
+        "e2e": {
+            "executor": "@nrwl/cypress:cypress",
+            "options": {
+                "cypressConfig": "apps/something-ui-e2e/cypress.json",
+                "devServerTarget": "something-ui:storybook"
+            },
+            "configurations": {
+                "ci": {
+                    "devServerTarget": "something-ui:storybook:ci"
+                }
+            }
+        },
+        "lint": {
+            "executor": "@nrwl/linter:eslint",
+            "outputs": ["{options.outputFile}"],
+            "options": {
+                "lintFilePatterns": ["apps/something-ui-e2e/**/*.{js,ts}"]
+            }
         }
-      }
     },
-    "lint": {
-      "executor": "@nrwl/linter:eslint",
-      "outputs": [
-        "{options.outputFile}"
-      ],
-      "options": {
-        "lintFilePatterns": [
-          "apps/something-ui-e2e/**/*.{js,ts}"
-        ]
-      }
-    }
-  },
-  "tags": [],
-  "implicitDependencies": [
-    "something-ui"
-  ]
+    "tags": [],
+    "implicitDependencies": []
 }

@@ -1,81 +1,72 @@
 {
-  "projectType": "library",
-  "root": "libs/something-ui",
-  "sourceRoot": "libs/something-ui/src",
-  "prefix": "s-ui",
-  "targets": {
-    "build": {
-      "executor": "@nrwl/angular:ng-packagr-lite",
-      "outputs": [
-        "dist/libs/something-ui"
-      ],
-      "options": {
-        "project": "libs/something-ui/ng-package.json"
-      },
-      "configurations": {
-        "production": {
-          "tsConfig": "libs/something-ui/tsconfig.lib.prod.json"
+    "$schema": "..\\..\\node_modules\\nx\\schemas\\project-schema.json",
+    "projectType": "library",
+    "sourceRoot": "libs/something-ui/src",
+    "prefix": "s",
+    "targets": {
+        "build": {
+            "executor": "@nrwl/angular:ng-packagr-lite",
+            "outputs": ["dist/libs/something-ui"],
+            "options": {
+                "project": "libs/something-ui/ng-package.json"
+            },
+            "configurations": {
+                "production": {
+                    "tsConfig": "libs/something-ui/tsconfig.lib.prod.json"
+                },
+                "development": {
+                    "tsConfig": "libs/something-ui/tsconfig.lib.json"
+                }
+            },
+            "defaultConfiguration": "production"
         },
-        "development": {
-          "tsConfig": "libs/something-ui/tsconfig.lib.json"
-        }
-      },
-      "defaultConfiguration": "production"
-    },
-    "test": {
-      "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/libs/something-ui"
-      ],
-      "options": {
-        "jestConfig": "libs/something-ui/jest.config.js",
-        "passWithNoTests": true
-      }
-    },
-    "lint": {
-      "executor": "@nrwl/linter:eslint",
-      "options": {
-        "lintFilePatterns": [
-          "libs/something-ui/src/**/*.ts",
-          "libs/something-ui/src/**/*.html"
-        ]
-      }
-    },
-    "storybook": {
-      "executor": "@nrwl/storybook:storybook",
-      "options": {
-        "uiFramework": "@storybook/angular",
-        "port": 4400,
-        "config": {
-          "configFolder": "libs/something-ui/.storybook"
+        "test": {
+            "executor": "@nrwl/jest:jest",
+            "outputs": ["coverage/libs/something-ui"],
+            "options": {
+                "jestConfig": "libs/something-ui/jest.config.ts",
+                "passWithNoTests": true
+            }
         },
-        "projectBuildConfig": "something-ui:build-storybook"
-      },
-      "configurations": {
-        "ci": {
-          "quiet": true
-        }
-      }
-    },
-    "build-storybook": {
-      "executor": "@nrwl/storybook:build",
-      "outputs": [
-        "{options.outputPath}"
-      ],
-      "options": {
-        "uiFramework": "@storybook/angular",
-        "outputPath": "dist/storybook/something-ui",
-        "config": {
-          "configFolder": "libs/something-ui/.storybook"
+        "lint": {
+            "executor": "@nrwl/linter:eslint",
+            "options": {
+                "lintFilePatterns": [
+                    "libs/something-ui/**/*.ts",
+                    "libs/something-ui/**/*.html"
+                ]
+            }
         },
-        "projectBuildConfig": "something-ui:build-storybook"
-      },
-      "configurations": {
-        "ci": {
-          "quiet": true
+        "storybook": {
+            "executor": "@storybook/angular:start-storybook",
+            "options": {
+                "port": 4400,
+                "configDir": "libs/something-ui/.storybook",
+                "browserTarget": "something-ui:build-storybook",
+                "compodoc": false
+            },
+            "configurations": {
+                "ci": {
+                    "quiet": true
+                }
+            }
+        },
+        "build-storybook": {
+            "executor": "@storybook/angular:build-storybook",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "outputDir": "dist/storybook/something-ui",
+                "configDir": "libs/something-ui/.storybook",
+                "browserTarget": "something-ui:build-storybook",
+                "compodoc": false
+            },
+            "configurations": {
+                "ci": {
+                    "quiet": true
+                }
+            }
         }
-      }
-    }
-  },
-  "tags": []
+    },
+
+    "tags": []
 }
