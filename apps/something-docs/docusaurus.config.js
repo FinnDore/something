@@ -72,12 +72,7 @@ const config = {
                 links: [
                     {
                         title: 'Docs',
-                        items: [
-                            {
-                                label: 'CDK',
-                                to: '/docs/intro'
-                            }
-                        ]
+                        items: []
                     },
                     {
                         title: 'Community',
