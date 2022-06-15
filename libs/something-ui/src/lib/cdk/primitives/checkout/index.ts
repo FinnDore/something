@@ -1,1 +1,1 @@
-export * from './checkout.directive
+export * from './checkout.directive';
