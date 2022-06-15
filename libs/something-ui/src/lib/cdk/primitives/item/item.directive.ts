@@ -25,7 +25,6 @@ export class ItemDirective {
 }
 
 @NgModule({
-    imports: [CommonModule],
     declarations: [ItemDirective],
     exports: [ItemDirective]
 })

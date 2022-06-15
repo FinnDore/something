@@ -1,8 +1,16 @@
 <p>item price: {{ price }}</p>
-<button type="button" s-add-to-basket appearance="primary">add item</button>
+<button
+    type="button"
+    s-add-to-basket
+    s-item="price_1L88f0KBi9YpHhPGJnB4uxjX"
+    appearance="primary"
+>
+    add item
+</button>
 
-<button (click)="checkout()">checkout</button>
+<button s-checkout>checkout</button>
 
 <div>
     {{ basketStore.items$ | async | json }}
+    {{ basketStore.state$ | async | json }}
 </div>
