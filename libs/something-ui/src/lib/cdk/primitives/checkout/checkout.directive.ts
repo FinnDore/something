@@ -66,7 +66,7 @@ export class CheckoutDirective extends Unsubscribe {
     }
 
     /**
-     * Constructor for the basket store
+     * Constructor for the CheckoutDirective
      * @param basketStore the BasketStore
      */
     constructor(private basketStore: BasketStore) {

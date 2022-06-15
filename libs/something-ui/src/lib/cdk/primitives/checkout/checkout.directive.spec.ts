@@ -42,7 +42,6 @@ describe('CheckoutDirective', () => {
 
         fixture.changeDetectorRef.detectChanges();
         if (component.checkoutDirective) {
-            // Make the checkout last 10 ms for later tests
             component.checkoutDirective.redirectToCheckout = jest.fn();
             checkoutFn = component.checkoutDirective
                 .redirectToCheckout as jest.Mock<unknown, unknown[]>;
