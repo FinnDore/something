@@ -18,6 +18,5 @@
             "@something/s-ui/cdk/*": ["libs/something-ui/src/lib/cdk/*"]
         }
     },
-
     "exclude": ["node_modules", "tmp"]
 }
