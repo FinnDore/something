@@ -1,7 +1,17 @@
-import { Directive, HostListener, NgModule } from '@angular/core';
-import { StripeError } from '@stripe/stripe-js';
-import { exhaustMap, of, Subject, takeUntil, withLatestFrom } from 'rxjs';
-import { BasketItem } from '../../models/basket-item.model';
+import {
+    Directive,
+    HostListener,
+    Inject,
+    Input,
+    NgModule
+} from '@angular/core';
+import { Subject, takeUntil, tap, withLatestFrom } from 'rxjs';
+import { S_UI_CHECKOUT_PROVIDER } from '../../injection-tokens/checkout.token';
+import {
+    CheckoutProvider,
+    CheckoutWithOptions,
+    CheckoutWithoutOptions
+} from '../../models';
 import { BasketStore } from '../../stores/basket-store';
 import {
     Unsubscribe,
@@ -20,15 +30,26 @@ export class CheckoutDirective extends Unsubscribe {
      */
     private readonly checkout = this.checkout$.pipe(
         withLatestFrom(this.basketStore.items$),
-        exhaustMap(([, items]) => {
-            if (items === null) {
-                return of(null);
+        tap(([, items]) => {
+            if (items === null && !this.checkoutOptions?.items) {
+                return;
             }
 
-            return this.redirectToCheckout(items);
+            this.checkoutProvider.checkout({
+                items,
+                ...(this.checkoutOptions ?? {})
+            });
         }),
         takeUntil(this.destroy$)
     );
+
+    /**
+     * The options to use at checkout
+     */
+    @Input('s-checkout') checkoutOptions:
+        | CheckoutWithoutOptions
+        | Partial<CheckoutWithOptions<unknown>>
+        | null = null;
 
     /**
      * Redirects the user to the checkout
@@ -38,18 +59,14 @@ export class CheckoutDirective extends Unsubscribe {
     }
 
     /**
-     * Redirects the user to the checkout
-     * @param items the items to checkout with
-     */
-    async redirectToCheckout(items: BasketItem[]): Promise<{
-        error: StripeError;
-    } | void> {}
-
-    /**
      * Constructor for the CheckoutDirective
      * @param basketStore the BasketStore
      */
-    constructor(private basketStore: BasketStore) {
+    constructor(
+        private basketStore: BasketStore,
+        @Inject(S_UI_CHECKOUT_PROVIDER)
+        private checkoutProvider: CheckoutProvider
+    ) {
         super();
         this.checkout.subscribe();
     }
