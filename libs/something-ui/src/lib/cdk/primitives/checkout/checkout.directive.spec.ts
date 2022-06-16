@@ -14,6 +14,7 @@ import {
     CheckoutDirectiveModule
 } from './checkout.directive';
 
+import { Writeable } from '../../utils/models/writeable.model';
 @Component({
     selector: 's-test-component',
     template: `<button s-checkout></button>`,
@@ -31,7 +32,7 @@ describe('CheckoutDirective', () => {
     let button: HTMLButtonElement;
     let component: TestComponent;
     let checkoutFn: jest.Mock<unknown, unknown[]>;
-    let checkoutProvider: StripeCheckoutStore;
+    let checkoutProvider: Writeable<StripeCheckoutStore>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
@@ -51,12 +52,13 @@ describe('CheckoutDirective', () => {
         button = fixture.debugElement.query(By.css('button')).nativeElement;
         component = fixture.componentInstance;
 
-        checkoutProvider = TestBed.inject<StripeCheckoutStore>(
+        checkoutProvider = TestBed.inject<Writeable<StripeCheckoutStore>>(
             S_UI_CHECKOUT_PROVIDER
         );
 
         fixture.changeDetectorRef.detectChanges();
         if (component.checkoutDirective) {
+            checkoutProvider.checkout = jest.fn();
             checkoutFn = checkoutProvider.checkout as jest.Mock<
                 unknown,
                 unknown[]
@@ -77,12 +79,14 @@ describe('CheckoutDirective', () => {
         button.click();
 
         expect(checkoutFn).toHaveBeenCalledTimes(1);
-        expect(checkoutFn).toBeCalledWith([
-            {
-                itemId: '1',
-                quantity: 1
-            }
-        ]);
+        expect(checkoutFn).toBeCalledWith({
+            items: [
+                {
+                    itemId: '1',
+                    quantity: 1
+                }
+            ]
+        });
     });
 
     it('should be able to handle multiple items in the basket', () => {
@@ -102,19 +106,22 @@ describe('CheckoutDirective', () => {
         button.click();
 
         expect(checkoutFn).toHaveBeenCalledTimes(1);
-        expect(checkoutFn).toBeCalledWith([
-            {
-                itemId: '1',
-                quantity: 1
-            },
-            {
-                itemId: '3',
-                quantity: 111
-            }
-        ]);
+        expect(checkoutFn).toBeCalledWith({
+            items: [
+                {
+                    itemId: '1',
+                    quantity: 1
+                },
+                {
+                    itemId: '3',
+                    quantity: 111
+                }
+            ]
+        });
     });
 
-    it('should add the checkout options  the the current items in the basket', () => {
+    it('should add the checkout options the the current items in the basket', () => {
+        // TODO IMPLMENT THIS TEST
         basketStore.patchState({
             items: [
                 {
@@ -127,11 +134,13 @@ describe('CheckoutDirective', () => {
         button.click();
 
         expect(checkoutFn).toHaveBeenCalledTimes(1);
-        expect(checkoutFn).toBeCalledWith([
-            {
-                itemId: '1',
-                quantity: 1
-            }
-        ]);
+        expect(checkoutFn).toBeCalledWith({
+            items: [
+                {
+                    itemId: '1',
+                    quantity: 1
+                }
+            ]
+        });
     });
 });

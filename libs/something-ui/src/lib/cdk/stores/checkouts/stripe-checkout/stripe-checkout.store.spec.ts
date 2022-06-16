@@ -16,19 +16,9 @@ describe('ItemStore', () => {
         // stripeCheckoutStore = TestBed.inject(StripeCheckoutStore);
     });
 
-    // it('should return the current item', () => {
-    //     testScheduler.run(({ expectObservable }) => {
-    //         const item: Item = {
-    //             itemId: '1'
-    //         };
-    //         shopStore.patchState({
-    //             items: [item]
-    //         });
-    //         itemStore.patchState({ selectedItemId: '1' });
-
-    //         expectObservable(itemStore.item$, '-!').toBe('a', { a: item });
-    //     });
-    // });
+    it('-', () => {
+        expect(true).toBe(true);
+    });
 
     // it('should return the current item when it changes', () => {
     //     testScheduler.run(({ expectObservable, cold }) => {
