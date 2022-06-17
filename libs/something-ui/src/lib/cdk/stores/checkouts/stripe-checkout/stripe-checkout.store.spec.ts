@@ -1,5 +1,6 @@
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { Stripe } from '@stripe/stripe-js';
+import { CheckoutWithoutOptions } from '../../../models';
 import { StripeCheckoutStore } from './stripe-checkout.store';
 
 describe('StripeCheckoutStore', () => {
@@ -37,6 +38,22 @@ describe('StripeCheckoutStore', () => {
             successUrl: window.location.origin,
             cancelUrl: window.location.origin
         });
+    });
+
+    it('should not checkout when stripe is null', () => {
+        stripeCheckoutStore.patchState({ stripe: null });
+        (stripeCheckoutStore as unknown as { stripe$: unknown }).stripe$ =
+            stripeCheckoutStore.getStripe();
+        stripeCheckoutStore.checkout({ items: [{ itemId: '1', quantity: 1 }] });
+
+        expect(redirectToCheckout).toBeCalledTimes(0);
+    });
+
+    it('should not checkout when no options items are passed is null', () => {
+        stripeCheckoutStore.checkout({
+            options: {}
+        } as unknown as CheckoutWithoutOptions);
+        expect(redirectToCheckout).toBeCalledTimes(0);
     });
 
     it('should only call checkout once if multiple checkouts are made while one is in progress', fakeAsync(() => {

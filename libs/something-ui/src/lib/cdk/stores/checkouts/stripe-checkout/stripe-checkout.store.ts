@@ -5,10 +5,23 @@ import {
     RedirectToCheckoutClientOptions,
     Stripe
 } from '@stripe/stripe-js';
-import { exhaustMap, filter, pipe, withLatestFrom } from 'rxjs';
+import {
+    exhaustMap,
+    filter,
+    map,
+    Observable,
+    pipe,
+    Subject,
+    switchMap,
+    take,
+    takeUntil
+} from 'rxjs';
 import { EventState } from '../../../enums';
-import { CheckoutOptions, CheckoutProvider } from '../../../models';
-import { DeepPartial } from '../../../utils/models/deep-partial.model';
+import {
+    CheckoutOptions,
+    CheckoutProvider,
+    CheckoutWithOptions
+} from '../../../models';
 
 export interface StripeCheckoutStoreState {
     stripe: Stripe | null;
@@ -23,33 +36,52 @@ const DEFAULT_STATE: StripeCheckoutStoreState = {
 @Injectable()
 export class StripeCheckoutStore
     extends ComponentStore<StripeCheckoutStoreState>
-    implements CheckoutProvider<DeepPartial<RedirectToCheckoutClientOptions>>
+    implements CheckoutProvider<RedirectToCheckoutClientOptions>
 {
+    private readonly flushStripe$ = new Subject<void>();
+
     /**
      * The stripe instance. Only emits a value when stripe is setup
      */
-    private readonly stripe$ = this.select(({ stripe }) => stripe).pipe(
-        filter(Boolean)
-    );
+    protected stripe$ = this.getStripe();
 
     /**
      * Checkout with the passed items and options
      * @param checkoutOptions the options to checkout with
      */
     public readonly checkout = this.effect<
-        CheckoutOptions<DeepPartial<RedirectToCheckoutClientOptions>>
+        CheckoutOptions<RedirectToCheckoutClientOptions>
     >(
         pipe(
-            withLatestFrom(this.stripe$),
-            exhaustMap(([{ items }, stripe]) =>
+            filter(({ items }) => !!items),
+            switchMap(opts =>
+                this.stripe$.pipe(
+                    map(
+                        (
+                            stripe
+                        ): [
+                            CheckoutOptions<RedirectToCheckoutClientOptions>,
+                            Stripe
+                        ] => [opts, stripe]
+                    ),
+                    take(1),
+                    takeUntil(this.flushStripe$)
+                )
+            ),
+            exhaustMap(([checkoutOptions, stripe]) =>
                 stripe.redirectToCheckout({
-                    lineItems: items.map(({ itemId, quantity }) => ({
-                        price: itemId,
-                        quantity
-                    })),
                     mode: 'payment',
                     successUrl: window.location.origin,
-                    cancelUrl: window.location.origin
+                    cancelUrl: window.location.origin,
+                    ...((
+                        checkoutOptions as CheckoutWithOptions<RedirectToCheckoutClientOptions>
+                    ).options ?? {}),
+                    lineItems: checkoutOptions.items.map(
+                        ({ itemId, quantity }) => ({
+                            price: itemId,
+                            quantity
+                        })
+                    )
                 })
             )
         )
@@ -69,7 +101,16 @@ export class StripeCheckoutStore
         }
 
         this.patchState({ stripe, stripeState: EventState.OK });
+        this.stripe$ = this.getStripe();
         return true;
+    }
+
+    /**
+     * Creates and returns a selector for the stripe object
+     * @Returns an observable that emits a stripe
+     */
+    public getStripe(): Observable<Stripe> {
+        return this.select(({ stripe }) => stripe).pipe(filter(Boolean));
     }
 
     /**
