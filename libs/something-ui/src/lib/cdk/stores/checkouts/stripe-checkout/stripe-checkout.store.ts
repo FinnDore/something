@@ -102,6 +102,7 @@ export class StripeCheckoutStore
 
         this.patchState({ stripe, stripeState: EventState.OK });
         this.stripe$ = this.getStripe();
+        this.flushStripe$.next();
         return true;
     }
 
