@@ -9,8 +9,6 @@ import { exhaustMap, filter, pipe, withLatestFrom } from 'rxjs';
 import { EventState } from '../../../enums';
 import { CheckoutOptions, CheckoutProvider } from '../../../models';
 import { DeepPartial } from '../../../utils/models/deep-partial.model';
-import { log } from '../../../utils/rx/log';
-import { BasketStore } from '../../basket-store';
 
 export interface StripeCheckoutStoreState {
     stripe: Stripe | null;
@@ -50,8 +48,8 @@ export class StripeCheckoutStore
                         quantity
                     })),
                     mode: 'payment',
-                    successUrl: `${window.location.origin}`,
-                    cancelUrl: `${window.location.origin}`
+                    successUrl: window.location.origin,
+                    cancelUrl: window.location.origin
                 })
             )
         )
@@ -77,17 +75,7 @@ export class StripeCheckoutStore
     /**
      * Constructor for StripeCheckoutStore
      */
-    constructor(private basketStore: BasketStore) {
+    constructor() {
         super(DEFAULT_STATE);
     }
 }
-
-// return await stripe.redirectToCheckout({
-//     lineItems: items.map(({ itemId, quantity }) => ({
-//         price: itemId,
-//         quantity
-//     })),
-//     mode: 'payment',
-//     successUrl: `${window.location.origin}`,
-//     cancelUrl: `${window.location.origin}`
-// });

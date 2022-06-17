@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 import { TuiButtonModule } from '@taiga-ui/core';
 import { S_UI_CHECKOUT_PROVIDER } from '../injection-tokens/checkout.token';
-import { CheckoutProvider } from '../models';
 import { AddToBasketDirectiveModule } from '../primitives/add-to-basket/add-to-basket.directive';
 import { CheckoutDirectiveModule } from '../primitives/checkout/checkout.directive';
 import { ItemDirectiveModule } from '../primitives/item/item.directive';

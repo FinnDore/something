@@ -1,20 +1,16 @@
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { S_UI_CHECKOUT_PROVIDER } from '../../injection-tokens/checkout.token';
-import { CheckoutProvider } from '../../models';
 import { BasketStore } from '../../stores/basket-store/basket.store';
 import { StripeCheckoutStore } from '../../stores/checkouts/stripe-checkout/stripe-checkout.store';
-import { ItemStore } from '../../stores/item-store/item.store';
 import { ShopStore } from '../../stores/shop-store/shop.store';
-import { ItemDirectiveModule } from '../item/item.directive';
-import { RemoveFromBasketDirective } from '../remove-from-basket';
+import { Writeable } from '../../utils/models/writeable.model';
 import {
     CheckoutDirective,
     CheckoutDirectiveModule
 } from './checkout.directive';
 
-import { Writeable } from '../../utils/models/writeable.model';
 @Component({
     selector: 's-test-component',
     template: `<button s-checkout></button>`,
@@ -121,26 +117,52 @@ describe('CheckoutDirective', () => {
     });
 
     it('should add the checkout options the the current items in the basket', () => {
-        // TODO IMPLMENT THIS TEST
-        basketStore.patchState({
-            items: [
-                {
-                    itemId: '1',
-                    quantity: 1
-                }
-            ]
-        });
+        expect(component.checkoutDirective).not.toBeNull();
+        if (!component.checkoutDirective) {
+            return;
+        }
+        const firstOpts = {
+            options: {
+                payment: 'Subscription'
+            }
+        };
+        const firstItems = [
+            {
+                itemId: '1',
+                quantity: 2
+            }
+        ];
 
+        basketStore.patchState({ items: firstItems });
+
+        component.checkoutDirective.checkoutOptions = {
+            options: {
+                payment: 'Subscription'
+            }
+        };
         button.click();
 
         expect(checkoutFn).toHaveBeenCalledTimes(1);
         expect(checkoutFn).toBeCalledWith({
+            items: firstItems,
+            ...firstOpts
+        });
+
+        const newOpts = {
             items: [
                 {
-                    itemId: '1',
-                    quantity: 1
+                    itemId: '2',
+                    quantity: 2
                 }
-            ]
-        });
+            ],
+            options: {
+                payment: 'Subscription'
+            }
+        };
+        component.checkoutDirective.checkoutOptions = newOpts;
+        button.click();
+
+        expect(checkoutFn).toHaveBeenCalledTimes(2);
+        expect(checkoutFn).toBeCalledWith(newOpts);
     });
 });
