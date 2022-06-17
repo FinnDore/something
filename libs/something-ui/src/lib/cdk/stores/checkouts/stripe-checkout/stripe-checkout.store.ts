@@ -6,6 +6,7 @@ import {
     Stripe
 } from '@stripe/stripe-js';
 import {
+    defaultIfEmpty,
     exhaustMap,
     filter,
     map,
@@ -54,20 +55,10 @@ export class StripeCheckoutStore
     >(
         pipe(
             filter(({ items }) => !!items),
-            switchMap(opts =>
-                this.stripe$.pipe(
-                    map(
-                        (
-                            stripe
-                        ): [
-                            CheckoutOptions<RedirectToCheckoutClientOptions>,
-                            Stripe
-                        ] => [opts, stripe]
-                    ),
-                    take(1),
-                    takeUntil(this.flushStripe$)
-                )
-            ),
+            // We use a switch map here so if stripe is set to null we block here for another
+            // stripe instance rather than using a stale stripe instance
+            switchMap(this.getStripeForCheckout),
+            filter(Boolean),
             exhaustMap(([checkoutOptions, stripe]) =>
                 stripe.redirectToCheckout({
                     mode: 'payment',
@@ -92,7 +83,7 @@ export class StripeCheckoutStore
      * @param stripeKey the stripe key to use
      * @returns a boolean indicating if stripe wa setup correctly
      */
-    async setupStripe(stripeKey: string): Promise<boolean> {
+    public async setupStripe(stripeKey: string): Promise<boolean> {
         const stripe = await loadStripe(stripeKey);
 
         if (!stripe) {
@@ -112,6 +103,23 @@ export class StripeCheckoutStore
      */
     public getStripe(): Observable<Stripe> {
         return this.select(({ stripe }) => stripe).pipe(filter(Boolean));
+    }
+
+    /**
+     * Returns an observable with the checkout options and a stripe object once before completing.
+     * Note that observable completes when flushStripe emits. This means it could complete without any values being emitted
+     * @param opts the checkout options
+     * @returns returns an observable with the past ops and a stripe object
+     */
+    private getStripeForCheckout<
+        T = CheckoutOptions<RedirectToCheckoutClientOptions>
+    >(opts: T): Observable<[T, Stripe] | null> {
+        return this.stripe$.pipe(
+            map((stripe): [T, Stripe] => [opts, stripe]),
+            take(1),
+            takeUntil(this.flushStripe$),
+            defaultIfEmpty(null)
+        );
     }
 
     /**
