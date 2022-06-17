@@ -31,7 +31,11 @@ export class CheckoutDirective extends Unsubscribe {
     private readonly checkout = this.checkout$.pipe(
         withLatestFrom(this.basketStore.items$),
         tap(([, items]) => {
-            if (items === null && !this.checkoutOptions?.items) {
+            if (
+                items === null &&
+                (typeof this.checkoutOptions === 'string' ||
+                    !this.checkoutOptions?.items)
+            ) {
                 return;
             }
 
@@ -49,7 +53,8 @@ export class CheckoutDirective extends Unsubscribe {
     @Input('s-checkout') checkoutOptions:
         | CheckoutWithoutOptions
         | Partial<CheckoutWithOptions<unknown>>
-        | null = null;
+        | null
+        | '' = null;
 
     /**
      * Redirects the user to the checkout
