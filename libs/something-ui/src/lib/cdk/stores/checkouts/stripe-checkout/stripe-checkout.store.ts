@@ -57,7 +57,7 @@ export class StripeCheckoutStore
             filter(({ items }) => !!items),
             // We use a switch map here so if stripe is set to null we block here for another
             // stripe instance rather than using a stale stripe instance
-            switchMap(this.getStripeForCheckout),
+            switchMap(opts => this.getStripeForCheckout(opts)),
             filter(Boolean),
             exhaustMap(([checkoutOptions, stripe]) =>
                 stripe.redirectToCheckout({
