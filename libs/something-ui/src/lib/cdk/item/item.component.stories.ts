@@ -1,16 +1,13 @@
-import { moduleMetadata, Story, Meta } from '@storybook/angular';
-import { BasketStore } from '../stores/basket-store/basket.store';
-import { ItemStore } from '../stores/item-store/item.store';
-import { ShopStore } from '../stores/shop-store/shop.store';
-import { ItemComponent } from './item.component';
+import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { ItemComponent, ItemComponentModule } from './item.component';
 
 export default {
     title: 'ItemComponent',
     component: ItemComponent,
     decorators: [
         moduleMetadata({
-            imports: [],
-            providers: [ShopStore, BasketStore, ItemStore]
+            imports: [ItemComponentModule],
+            providers: []
         })
     ],
     argTypes: {

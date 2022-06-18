@@ -35,7 +35,7 @@
         {
             "files": ["*.ts", "*.tsx"],
             "rules": {
-                "@typescript-eslint/explicit-function-return-type": [2],
+                "@typescript-eslint/explicit-function-return-type": "off",
                 "valid-jsdoc": [
                     2,
                     {
