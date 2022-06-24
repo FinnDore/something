@@ -2,6 +2,10 @@ use diesel::{mysql::MysqlConnection, Connection};
 
 #[macro_use]
 extern crate rocket;
+extern crate dotenv;
+
+use dotenv::dotenv;
+use std::env;
 
 #[get("/")]
 fn index() -> &'static str {
@@ -10,8 +14,10 @@ fn index() -> &'static str {
 
 #[launch]
 fn rocket() -> _ {
-    let database_url: &str = option_env!("DATABASE_URL").expect("DATABASE_URL must be set");
-    MysqlConnection::establish(database_url).expect("Error connecting to database");
+    dotenv().ok();
+
+    let database_url = option_env!("DATABASE_URL").expect("DATABASE_URL must be set");
+    MysqlConnection::establish(&database_url).expect("Error connecting to database");
 
     const VERSION: Option<&str> = option_env!("CARGO_PKG_VERSION");
 
