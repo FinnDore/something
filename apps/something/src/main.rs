@@ -10,7 +10,8 @@ fn index() -> &'static str {
 
 #[launch]
 fn rocket() -> _ {
-    MysqlConnection::establish("").expect("Error connecting to database");
+    let database_url: &str = option_env!("DATABASE_URL").expect("DATABASE_URL must be set");
+    MysqlConnection::establish(database_url).expect("Error connecting to database");
 
     const VERSION: Option<&str> = option_env!("CARGO_PKG_VERSION");
 
