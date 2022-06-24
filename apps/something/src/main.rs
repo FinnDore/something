@@ -5,7 +5,6 @@ extern crate rocket;
 extern crate dotenv;
 
 use dotenv::dotenv;
-use std::env;
 
 #[get("/")]
 fn index() -> &'static str {
