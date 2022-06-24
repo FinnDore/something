@@ -1,3 +1,5 @@
+use diesel::{mysql::MysqlConnection, Connection};
+
 #[macro_use]
 extern crate rocket;
 
@@ -8,6 +10,8 @@ fn index() -> &'static str {
 
 #[launch]
 fn rocket() -> _ {
+    MysqlConnection::establish("").expect("Error connecting to database");
+
     const VERSION: Option<&str> = option_env!("CARGO_PKG_VERSION");
 
     println!("💸 something version {} 💸", VERSION.unwrap_or("UNKNOWN"));
