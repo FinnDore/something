@@ -1,10 +1,10 @@
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 
 use crate::enums::response_code::ResponseCode;
 
 //A standard response that always contains a status
-#[derive(Serialize)]
-pub struct GenericResponse<T> {
+#[derive(Debug, Serialize, Deserialize)]
+pub struct GenericResponse {
     pub status: ResponseCode,
-    pub data: T,
+    pub data: String,
 }

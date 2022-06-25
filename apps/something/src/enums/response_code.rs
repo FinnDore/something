@@ -1,6 +1,6 @@
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 
-#[derive(Serialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub enum ResponseCode {
     ERROR,
     Ok,

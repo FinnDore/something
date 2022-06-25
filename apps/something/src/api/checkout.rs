@@ -10,7 +10,7 @@ use serde::{Deserialize, Serialize};
 use std::env;
 use std::f32::consts::E;
 
-fn handleError(err: reqwest::Error) -> GenericResponse<bool> {
+fn handle_error(err: reqwest::Error) -> GenericResponse {
     let status = err.status();
     if status.is_none() || err.is_decode() {
         print!("is None")
@@ -27,7 +27,7 @@ fn handleError(err: reqwest::Error) -> GenericResponse<bool> {
 
     GenericResponse {
         status: ResponseCode::ERROR,
-        data: true,
+        data: "".to_string(),
     }
 }
 
@@ -39,8 +39,13 @@ struct SessionOptions {
     mode: String,
 }
 
+#[derive(Debug, Deserialize)]
+struct StripeResponse {
+    url: String,
+}
+
 #[put("/checkout")]
-pub async fn checkout() -> String {
+pub async fn checkout() -> GenericResponse {
     let stripe_key = env::var("STRIPE_SK").expect("STRIPE_SK must be set");
 
     let form = [
@@ -61,35 +66,14 @@ pub async fn checkout() -> String {
         .send()
         .await;
 
-    if let Err(e) = res {
-        handleError(e);
+    match res {
+        Ok(response) => {
+            let stripeResponse: StripeResponse = response.json().await.unwrap();
+            GenericResponse {
+                data: stripeResponse.url.to_owned(),
+                status: ResponseCode::Ok,
+            }
+        }
+        Err(err) => handle_error(err),
     }
-
-    // let url = match res {
-    //     Ok(x) => x,
-    //     Err(_) => todo!(),
-    // };
-
-    // println!("{}", res.);
-    String::from("")
 }
-
-// let res: Session = reqwest::Client::new()
-// .post(format!(
-//     "https://{}@api.stripe.com/v1/checkout/sessions",
-//     stripe_key
-// ))
-// .header(CONTENT_TYPE, "application/x-www-form-urlencoded")
-// .form(&[
-//     ("success_url", "https://example.com/success"),
-//     ("cancel_url", "https://example.com/success"),
-//     ("mode", "payment"),
-//     ("line_items[0][price]", "price_1L88f0KBi9YpHhPGJnB4uxjX"),
-//     ("line_items[0][quantity]", "11"),
-// ])
-// .send()
-// .await
-// .unwrap()
-// .json()
-// .await
-// .unwrap();

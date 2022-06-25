@@ -1,7 +1,7 @@
 mod api;
 mod enums;
 mod models;
-use crate::api::checkout;
+use api::checkout::checkout;
 extern crate dotenv;
 
 #[macro_use]
