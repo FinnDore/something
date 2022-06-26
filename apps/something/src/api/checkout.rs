@@ -6,9 +6,23 @@ use dotenv::dotenv;
 use reqwest::StatusCode;
 use reqwest::{self, header::CONTENT_TYPE};
 use rocket::response;
+use rocket::serde::json::Json;
 use serde::{Deserialize, Serialize};
 use std::env;
 use std::f32::consts::E;
+
+#[derive(Debug, Serialize)]
+struct SessionOptions {
+    success_url: String,
+    cancel_url: String,
+    ice_tea: String,
+    mode: String,
+}
+
+#[derive(Debug, Deserialize)]
+struct StripeResponse {
+    url: String,
+}
 
 fn handle_error(err: reqwest::Error) -> GenericResponse {
     let status = err.status();
@@ -31,21 +45,8 @@ fn handle_error(err: reqwest::Error) -> GenericResponse {
     }
 }
 
-#[derive(Debug, Serialize)]
-struct SessionOptions {
-    success_url: String,
-    cancel_url: String,
-    ice_tea: String,
-    mode: String,
-}
-
-#[derive(Debug, Deserialize)]
-struct StripeResponse {
-    url: String,
-}
-
 #[put("/checkout")]
-pub async fn checkout() -> GenericResponse {
+pub async fn checkout() -> Json<GenericResponse> {
     let stripe_key = env::var("STRIPE_SK").expect("STRIPE_SK must be set");
 
     let form = [
@@ -69,11 +70,11 @@ pub async fn checkout() -> GenericResponse {
     match res {
         Ok(response) => {
             let stripeResponse: StripeResponse = response.json().await.unwrap();
-            GenericResponse {
+            Json(GenericResponse {
                 data: stripeResponse.url.to_owned(),
                 status: ResponseCode::Ok,
-            }
+            })
         }
-        Err(err) => handle_error(err),
+        Err(err) => Json(handle_error(err)),
     }
 }
