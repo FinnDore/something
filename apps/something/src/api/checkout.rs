@@ -1,15 +1,13 @@
-extern crate dotenv;
 use crate::enums::response_code::ResponseCode;
 use crate::models::generic_response::GenericResponse;
-use diesel::{mysql::MysqlConnection, Connection};
-use dotenv::dotenv;
+
 use reqwest::StatusCode;
 use reqwest::{self, header::CONTENT_TYPE};
-use rocket::response;
+use rocket::http::Status;
+use rocket::response::status::{self, Custom};
 use rocket::serde::json::Json;
 use serde::{Deserialize, Serialize};
 use std::env;
-use std::f32::consts::E;
 
 #[derive(Debug, Serialize)]
 struct SessionOptions {
@@ -24,29 +22,45 @@ struct StripeResponse {
     url: String,
 }
 
-fn handle_error(err: reqwest::Error) -> GenericResponse {
+// Handles errors from stripe
+fn handle_error(err: reqwest::Error) -> Custom<Json<GenericResponse>> {
     let status = err.status();
     if status.is_none() || err.is_decode() {
-        print!("is None")
+        print!("is None");
+        return status::Custom(
+            Status::InternalServerError,
+            Json(GenericResponse {
+                status: ResponseCode::ERROR,
+                data: "".to_string(),
+            }),
+        );
     }
 
     let raw_status = status.unwrap();
 
     if raw_status == StatusCode::BAD_REQUEST {
-        print!("bad req")
-    }
-    if raw_status.as_u16() >= 401 && raw_status.as_u16() <= 499 {
-        print!("bad req more")
+        print!("bad req");
+        return status::Custom(
+            Status::BadRequest,
+            Json(GenericResponse {
+                status: ResponseCode::ERROR,
+                data: "".to_string(),
+            }),
+        );
     }
 
-    GenericResponse {
-        status: ResponseCode::ERROR,
-        data: "".to_string(),
-    }
+    status::Custom(
+        Status::InternalServerError,
+        Json(GenericResponse {
+            status: ResponseCode::ERROR,
+            data: "".to_string(),
+        }),
+    )
 }
 
+// Takes a list of items and returns a checkout url
 #[put("/checkout")]
-pub async fn checkout() -> Json<GenericResponse> {
+pub async fn checkout() -> Custom<Json<GenericResponse>> {
     let stripe_key = env::var("STRIPE_SK").expect("STRIPE_SK must be set");
 
     let form = [
@@ -67,14 +81,29 @@ pub async fn checkout() -> Json<GenericResponse> {
         .send()
         .await;
 
-    match res {
-        Ok(response) => {
-            let stripeResponse: StripeResponse = response.json().await.unwrap();
-            Json(GenericResponse {
-                data: stripeResponse.url.to_owned(),
-                status: ResponseCode::Ok,
-            })
-        }
-        Err(err) => Json(handle_error(err)),
+    if let Err(err) = res {
+        return handle_error(err);
     }
+
+    let res_body = res.unwrap().json().await;
+
+    if let Err(_err) = res_body {
+        return status::Custom(
+            Status::InternalServerError,
+            Json(GenericResponse {
+                status: ResponseCode::ERROR,
+                data: "".to_string(),
+            }),
+        );
+    }
+
+    let stripe_response: StripeResponse = res_body.unwrap();
+
+    status::Custom(
+        Status::Ok,
+        Json(GenericResponse {
+            data: stripe_response.url.to_owned(),
+            status: ResponseCode::OK,
+        }),
+    )
 }
