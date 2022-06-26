@@ -1,16 +1,25 @@
+mod api;
+mod enums;
+mod models;
+use api::checkout::checkout;
+extern crate dotenv;
+
 #[macro_use]
 extern crate rocket;
 
-#[get("/")]
-fn index() -> &'static str {
-    "Hello, world!1"
-}
+use diesel::{mysql::MysqlConnection, Connection};
+use std::env;
 
 #[launch]
 fn rocket() -> _ {
+    let database_url =
+        env::var("DATABASE_URL").expect("DATABASE_URL must be set");
+    MysqlConnection::establish(&database_url)
+        .expect("Error connecting to database");
+
     const VERSION: Option<&str> = option_env!("CARGO_PKG_VERSION");
 
     println!("💸 something version {} 💸", VERSION.unwrap_or("UNKNOWN"));
 
-    rocket::build().mount("/", routes![index])
+    rocket::build().mount("/", routes![checkout])
 }
