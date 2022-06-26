@@ -3,6 +3,7 @@ table! {
         id -> Varchar,
         name -> Varchar,
         description -> Varchar,
+        priceId -> Varchar,
     }
 }
 
