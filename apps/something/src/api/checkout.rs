@@ -1,13 +1,21 @@
 use crate::enums::response_code::ResponseCode;
 use crate::models::generic_response::GenericResponse;
+use crate::{establish_connection, schema};
 
+use crate::models::db::item::{self, Item};
+use crate::schema::items::columns;
+use crate::schema::orders::itemId;
+use diesel::prelude::*;
+use diesel::{mysql::MysqlConnection, Connection};
 use reqwest::StatusCode;
 use reqwest::{self, header::CONTENT_TYPE};
+use rocket::http::private::Array;
 use rocket::http::Status;
 use rocket::response::status::{self, Custom};
 use rocket::serde::json::Json;
 use serde::{Deserialize, Serialize};
 use std::env;
+use std::process::id;
 
 #[derive(Debug, Serialize)]
 struct SessionOptions {
@@ -63,13 +71,48 @@ fn handle_error(err: reqwest::Error) -> Custom<Json<GenericResponse>> {
 pub async fn checkout() -> Custom<Json<GenericResponse>> {
     let stripe_key = env::var("STRIPE_SK").expect("STRIPE_SK must be set");
 
-    let form = [
-        ("success_url", "https://example.com/success"),
-        ("cancel_url", "https://example.com/success"),
-        ("mode", "payment"),
-        ("line_items[0][price]", "price_1L88f0KBi9YpHhPGJnB4uxjX"),
-        ("line_items[0][quantity]", "11"),
+    use crate::schema::items::dsl::*;
+    use diesel::prelude::*;
+
+    let conn = establish_connection();
+
+    let shop_item = items
+        .filter(id.eq("fcd41d03-6cf1-4535-b609-08dc2e4bd5a5"))
+        .load::<Item>(&conn)
+        .expect("no item");
+
+    if shop_item.is_empty() {
+        return status::Custom(
+            Status::BadRequest,
+            Json(GenericResponse {
+                status: ResponseCode::ERROR,
+                data: "".to_string(),
+            }),
+        );
+    }
+
+    let mut form: Vec<(String, String)> = vec![
+        (
+            "success_url".to_string(),
+            "https://example.com/success".to_string(),
+        ),
+        (
+            "cancel_url".to_string(),
+            "https://example.com/success".to_string(),
+        ),
+        ("mode".to_string(), "payment".to_string()),
     ];
+
+    for (i, current_item) in shop_item.iter().enumerate() {
+        form.push((
+            format!("line_items[{i}][price]").to_owned(),
+            current_item.priceId.to_owned(),
+        ));
+        form.push((
+            format!("line_items[{i}][quantity]").to_owned(),
+            "11".to_owned(),
+        ));
+    }
 
     let res = reqwest::Client::new()
         .post(format!(
