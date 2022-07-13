@@ -1,4 +1,5 @@
-use crate::schema::items;
+#![allow(non_snake_case)]
+
 use diesel::Queryable;
 use rocket::serde::{Deserialize, Serialize};
 // A shop  item

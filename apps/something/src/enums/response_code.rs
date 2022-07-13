@@ -1,3 +1,5 @@
+#![allow(non_camel_case_types)]
+
 use serde::{Deserialize, Serialize};
 use strum::EnumString;
 
@@ -5,4 +7,6 @@ use strum::EnumString;
 pub enum ResponseCode {
     ERROR,
     OK,
+    CHECKOUT_UNKNOWN_ITEM,
+    CHECKOUT_OUT_OF_STOCK,
 }
