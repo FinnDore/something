@@ -1,6 +1,7 @@
-use crate::enums::response_code::ResponseCode;
-use rocket::serde::{Deserialize, Serialize};
+#![allow(non_snake_case)]
 
+use diesel::Queryable;
+use rocket::serde::{Deserialize, Serialize};
 // A shop  item
 #[derive(Debug, Serialize, Deserialize, Queryable)]
 pub struct Item {
