@@ -12,3 +12,4 @@ reqwest = { version = "0.11", features = ["json"] }
 strum = { version = "0.24", features = ["derive"] }
 dotenv = "0.15.0"
 serde = "1.0"
+cuid = "1.2.0"

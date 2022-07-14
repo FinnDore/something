@@ -2,6 +2,7 @@ mod api;
 mod enums;
 pub mod models;
 pub mod schema;
+use api::add_item::add_item;
 use api::checkout::checkout;
 extern crate dotenv;
 
@@ -26,5 +27,5 @@ fn rocket() -> _ {
 
     println!("💸 something version {} 💸", VERSION.unwrap_or("UNKNOWN"));
 
-    rocket::build().mount("/", routes![checkout])
+    rocket::build().mount("/", routes![checkout, add_item])
 }
