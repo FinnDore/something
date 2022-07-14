@@ -7,3 +7,8 @@ pub struct GenericResponse<T> {
     pub status: ResponseCode,
     pub data: T,
 }
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct VoidGenericResponse {
+    pub status: ResponseCode,
+}
