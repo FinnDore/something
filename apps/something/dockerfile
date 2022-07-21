@@ -5,7 +5,7 @@ COPY . .
 
 EXPOSE 80
 
-RUN cargo install --path .
 ENV ROCKET_CONFIG=/usr/src/something/rocket.toml
+RUN cargo install --path .
 
 CMD ["something"]
