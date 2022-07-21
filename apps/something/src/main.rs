@@ -26,9 +26,13 @@ pub fn establish_connection() -> MysqlConnection {
 fn rocket() -> _ {
     const VERSION: Option<&str> = option_env!("CARGO_PKG_VERSION");
     const ADDR: Option<&str> = option_env!("ROCKET_ADDRESS");
+    // check if we are running a release build or not
+    env::set_var("ROCKET_ADDRESS", "0.0.0.0");
+    const A: Option<&str> = option_env!("ROCKET_ADDRESS");
 
     println!("💸 something version {} 💸", VERSION.unwrap_or("UNKNOWN"));
     println!("addr {} 💸", ADDR.unwrap_or("UNKNOWN"));
+    println!("a {} 💸", A.unwrap_or("UNKNOWN"));
 
     rocket::build().mount("/", routes![checkout, add_item])
 }
