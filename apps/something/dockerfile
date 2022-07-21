@@ -7,7 +7,7 @@ EXPOSE 80
 
 ENV ROCKET_CONFIG=/usr/src/something/rocket.toml
 
-RUN cargo build --release 
+RUN cargo build --release --target something
 
 RUN cp target/release/something ./something
 
