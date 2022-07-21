@@ -1,4 +1,4 @@
-FROM rust:1.61.0@sha256:816886827dbc6c248ebb29119fc9d8b2b74418a1a113463beae0c0b8460c5c5f
+FROM rust:1.62.10@sha256:4f1d43c216d995c2f734d7c682bc3e2abe3e110961cda4ae0743ce3944e673a2
 
 WORKDIR /usr/src/something
 COPY . .
@@ -6,6 +6,7 @@ COPY . .
 EXPOSE 80
 
 ENV ROCKET_CONFIG=/usr/src/something/rocket.toml
-RUN cargo install --path .
+RUN cargo build --release
+# RUN cargo install --path .
 
 CMD ["something"]
