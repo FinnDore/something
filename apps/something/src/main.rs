@@ -12,7 +12,7 @@ extern crate rocket;
 extern crate diesel;
 
 use diesel::{mysql::MysqlConnection, Connection};
-use rocket::{tokio, Config};
+use rocket::Config;
 use std::{env, net::Ipv4Addr};
 
 pub fn establish_connection() -> MysqlConnection {
