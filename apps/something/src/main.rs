@@ -35,4 +35,6 @@ async fn main() {
     {
         println!("{}", err);
     }
+
+    println!("aaaaaaaaaa");
 }
