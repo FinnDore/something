@@ -3,6 +3,7 @@
     "projects": {
         "something": "apps/something",
         "something-docs": "apps/something-docs",
+        "something-shop": "apps/something-shop",
         "something-ui": "libs/something-ui"
     }
 }
