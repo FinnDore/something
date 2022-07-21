@@ -9,4 +9,8 @@ ENV ROCKET_CONFIG=/usr/src/something/rocket.toml
 
 RUN cargo build --release
 
-CMD ["usr/src/something/target/release/something"]
+FROM debian:buster-slim
+RUN apt-get update && rm -rf /var/lib/apt/lists/*
+COPY --from=builder /usr/src/something/target/release/something /usr/local/bin/somthing
+
+CMD ["something"]
