@@ -9,4 +9,5 @@ ENV ROCKET_CONFIG=/usr/src/something/rocket.toml
 RUN cargo build --release
 # RUN cargo install --path .
 RUN cp target/release/something /bin
+RUN rm target -rf 
 CMD ["/bin/something"]
