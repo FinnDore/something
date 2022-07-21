@@ -14,5 +14,6 @@ RUN apt-get update && apt-get install -y libssl-dev libmariadb-dev && rm -rf /va
 COPY --from=builder /usr/src/something/target/release/something /bin
 ENV ROCKET_ADDRESS=${ROCKET_ADDRESS}
 RUN echo ${ROCKET_ADDRESS}
+RUN export ROCKET_ADDRESS=${ROCKET_ADDRESS}
 RUN echo $ROCKET_ADDRESS
 CMD ["something"]
