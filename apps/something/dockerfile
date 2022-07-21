@@ -1,4 +1,4 @@
-ARG ROCKET_ADDRESS
+ARG ROCKET_ADDRESS=0.0.0.0
 FROM amd64/rust:1.62.10@sha256:4f1d43c216d995c2f734d7c682bc3e2abe3e110961cda4ae0743ce3944e673a2  as builder
 
 WORKDIR /usr/src/something
