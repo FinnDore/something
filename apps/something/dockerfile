@@ -9,4 +9,4 @@ ENV ROCKET_CONFIG=/usr/src/something/rocket.toml
 RUN cargo build --release
 # RUN cargo install --path .
 
-CMD ["something"]
+CMD ["target/debug/something"]
