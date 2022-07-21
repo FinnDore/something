@@ -1,3 +1,4 @@
+ARG ROCKET_ADDRESS
 FROM amd64/rust:1.62.10@sha256:4f1d43c216d995c2f734d7c682bc3e2abe3e110961cda4ae0743ce3944e673a2  as builder
 
 WORKDIR /usr/src/something
@@ -8,7 +9,6 @@ EXPOSE 80
 ENV ROCKET_CONFIG=/usr/src/something/rocket.toml
 
 RUN cargo build --release
-ARG ROCKET_ADDRESS
 FROM debian:buster-slim
 RUN apt-get update && apt-get install -y libssl-dev libmariadb-dev && rm -rf /var/lib/apt/lists/*
 COPY --from=builder /usr/src/something/target/release/something /bin
