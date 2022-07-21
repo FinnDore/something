@@ -11,6 +11,6 @@ RUN cargo build --release
 
 FROM debian:buster-slim
 RUN apt-get update && rm -rf /var/lib/apt/lists/*
-COPY --from=builder /usr/src/something/target/release/something /usr/local/bin/somthing
+COPY --from=builder /usr/src/something/target/release/something /bin
 
 CMD ["something"]
