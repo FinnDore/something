@@ -7,4 +7,5 @@ log_level = "debug"
 port = 4200
 
 [release]
+log_level = "debug"
 address = "0.0.0.0"
