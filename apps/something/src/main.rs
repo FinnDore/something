@@ -2,6 +2,8 @@ mod api;
 mod enums;
 pub mod models;
 pub mod schema;
+use std::env;
+
 use api::add_item::add_item;
 use api::checkout::checkout;
 extern crate dotenv;
