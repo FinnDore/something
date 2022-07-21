@@ -45,7 +45,6 @@
             "style": "scss"
         }
     },
-    "defaultProject": "something-shop",
     "plugins": [],
     "$schema": "./node_modules/nx/schemas/nx-schema.json"
 }
