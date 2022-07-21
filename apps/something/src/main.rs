@@ -12,6 +12,7 @@ extern crate rocket;
 extern crate diesel;
 
 use diesel::{mysql::MysqlConnection, Connection};
+use rocket::tokio;
 use std::env;
 
 pub fn establish_connection() -> MysqlConnection {
@@ -21,11 +22,17 @@ pub fn establish_connection() -> MysqlConnection {
         .expect("Error connecting to database")
 }
 
-#[launch]
-fn rocket() -> _ {
+#[tokio::main]
+async fn main() {
     const VERSION: Option<&str> = option_env!("CARGO_PKG_VERSION");
 
     println!("💸 something version {} 💸", VERSION.unwrap_or("UNKNOWN"));
 
-    rocket::build().mount("/", routes![checkout, add_item])
+    if let Err(err) = rocket::build()
+        .mount("/", routes![checkout, add_item])
+        .launch()
+        .await
+    {
+        println!("{}", err);
+    }
 }
