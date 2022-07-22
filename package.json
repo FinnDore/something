@@ -36,6 +36,7 @@
         "@taiga-ui/kit": "^2.47.0",
         "clsx": "^1.1.1",
         "core-js": "^3.6.5",
+        "jotai": "^1.7.6",
         "next": "12.1.6",
         "prism-react-renderer": "^1.2.1",
         "react": "^17.0.1",
