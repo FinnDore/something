@@ -1,104 +1,45 @@
 {
-    "$schema": "..\\..\\node_modules\\nx\\schemas\\project-schema.json",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "apps/something-shop",
     "projectType": "application",
-    "sourceRoot": "apps/something-shop/src",
-    "prefix": "s",
     "targets": {
         "build": {
-            "executor": "@angular-devkit/build-angular:browser",
+            "executor": "@nrwl/next:build",
             "outputs": ["{options.outputPath}"],
+            "defaultConfiguration": "production",
             "options": {
-                "outputPath": "dist/apps/something-shop",
-                "index": "apps/something-shop/src/index.html",
-                "main": "apps/something-shop/src/main.ts",
-                "polyfills": "apps/something-shop/src/polyfills.ts",
-                "tsConfig": "apps/something-shop/tsconfig.app.json",
-                "inlineStyleLanguage": "scss",
-                "assets": [
-                    "apps/something-shop/src/favicon.ico",
-                    "apps/something-shop/src/assets",
-                    {
-                        "glob": "**/*",
-                        "input": "node_modules/@taiga-ui/icons/src",
-                        "output": "assets/taiga-ui/icons"
-                    },
-                    {
-                        "glob": "**/*",
-                        "input": "node_modules/@taiga-ui/icons/src",
-                        "output": "assets/taiga-ui/icons"
-                    }
-                ],
-                "styles": [
-                    "node_modules/@taiga-ui/core/styles/taiga-ui-global.less",
-                    "node_modules/@taiga-ui/core/styles/taiga-ui-theme.less",
-                    "apps/something-shop/src/styles.scss"
-                ],
-                "scripts": []
+                "root": "apps/something-shop",
+                "outputPath": "dist/apps/something-shop"
             },
             "configurations": {
-                "production": {
-                    "budgets": [
-                        {
-                            "type": "initial",
-                            "maximumWarning": "500kb",
-                            "maximumError": "1mb"
-                        },
-                        {
-                            "type": "anyComponentStyle",
-                            "maximumWarning": "2kb",
-                            "maximumError": "4kb"
-                        }
-                    ],
-                    "fileReplacements": [
-                        {
-                            "replace": "apps/something-shop/src/environments/environment.ts",
-                            "with": "apps/something-shop/src/environments/environment.prod.ts"
-                        }
-                    ],
-                    "outputHashing": "all"
-                },
                 "development": {
-                    "buildOptimizer": false,
-                    "optimization": false,
-                    "vendorChunk": true,
-                    "extractLicenses": false,
-                    "sourceMap": true,
-                    "namedChunks": true
-                }
-            },
-            "defaultConfiguration": "production"
+                    "outputPath": "tmp/apps/something-shop"
+                },
+                "production": {}
+            }
         },
         "serve": {
-            "executor": "@angular-devkit/build-angular:dev-server",
-            "configurations": {
-                "production": {
-                    "browserTarget": "something-shop:build:production"
-                },
-                "development": {
-                    "browserTarget": "something-shop:build:development"
-                }
+            "executor": "@nrwl/next:server",
+            "defaultConfiguration": "development",
+            "options": {
+                "buildTarget": "something-shop:build",
+                "dev": true
             },
-            "defaultConfiguration": "development"
-        },
-        "docker-build": {
-            "executor": "@nrwl/workspace:run-commands",
-            "options": {
-                "command": "docker build  -t something-shop:latest -f apps/something-shop/dockerfile ."
+            "configurations": {
+                "development": {
+                    "buildTarget": "something-shop:build:development",
+                    "dev": true
+                },
+                "production": {
+                    "buildTarget": "something-shop:build:production",
+                    "dev": false
+                }
             }
         },
-        "extract-i18n": {
-            "executor": "@angular-devkit/build-angular:extract-i18n",
+        "export": {
+            "executor": "@nrwl/next:export",
             "options": {
-                "browserTarget": "something-shop:build"
-            }
-        },
-        "lint": {
-            "executor": "@nrwl/linter:eslint",
-            "options": {
-                "lintFilePatterns": [
-                    "apps/something-shop/src/**/*.ts",
-                    "apps/something-shop/src/**/*.html"
-                ]
+                "buildTarget": "something-shop:build:production"
             }
         },
         "test": {
@@ -109,11 +50,11 @@
                 "passWithNoTests": true
             }
         },
-        "version": {
-            "executor": "@jscutlery/semver:version",
+        "lint": {
+            "executor": "@nrwl/linter:eslint",
+            "outputs": ["{options.outputFile}"],
             "options": {
-                "preset": "conventional",
-                "commitMessageFormat": "chore(${projectName}): release version ${version}"
+                "lintFilePatterns": ["apps/something-shop/**/*.{ts,tsx,js,jsx}"]
             }
         }
     },

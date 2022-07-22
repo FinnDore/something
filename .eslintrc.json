@@ -53,18 +53,7 @@
                             "param": "param"
                         }
                     }
-                ],
-                "require-jsdoc": [
-                    2,
-                    {
-                        "require": {
-                            "FunctionDeclaration": true,
-                            "MethodDefinition": true,
-                            "ClassDeclaration": false
-                        }
-                    }
-                ],
-                "no-console": "warn"
+                ]
             }
         }
     ]
