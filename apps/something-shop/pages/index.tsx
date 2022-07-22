@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { useState } from 'react';
 
 type Variant = {
@@ -39,13 +40,13 @@ const Item: React.FC<{
     return (
         <div className="border-color-white dark:border-color-white flex h-[24rem] w-72 flex-col rounded-md border-[.5px] px-3 py-5 drop-shadow-2xl">
             <div className="grid h-full place-items-center">
-                <div
-                    className="h-40 w-40 rounded-lg border drop-shadow-lg transition-colors"
-                    style={{
-                        backgroundColor: selectedVariant?.color,
-                        borderColor: selectedVariant?.color
-                    }}
-                ></div>
+                <div className="h-52 w-52 overflow-hidden rounded-lg drop-shadow-lg transition-colors">
+                    <Image
+                        src={selectedVariant.url}
+                        alt="Shop item mate"
+                        layout="fill"
+                    />
+                </div>
             </div>
             <div className="w-full px-2">
                 <div className="mb-4 w-full border-[.5px] dark:border-white"></div>
@@ -61,7 +62,7 @@ const Item: React.FC<{
                         )}
                         <div>{price}</div>
                     </div>
-                    <button className="ml-auto mt-auto h-min rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-pink-600 px-5 py-1 transition-colors hover:border-black hover:dark:border-white">
+                    <button className="ml-auto mt-auto h-min rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-pink-600 px-5 py-1 text-white transition-colors hover:border-black hover:dark:border-white">
                         BUY
                     </button>
                 </div>
@@ -72,14 +73,14 @@ const Item: React.FC<{
 
 export function Index() {
     return (
-        <div className="grid h-screen w-screen place-items-center bg-white dark:bg-black dark:text-white">
+        <div className="dark:bg-back-dark grid h-screen w-screen place-items-center dark:text-white">
             <Item
                 name="Just a Square"
                 price="£20"
                 variants={[
-                    { url: 'a', color: '#32a87b' },
-                    { url: 'a', color: '#7132a8' },
-                    { url: 'b', color: '#a88932' }
+                    { url: '/purple.png', color: '#8d13fe' },
+                    { url: '/blue.png', color: '#fd0e56' },
+                    { url: '/black.png', color: '#ffffff' }
                 ]}
             />
         </div>
