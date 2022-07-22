@@ -11,14 +11,14 @@ const ItemColors: React.FC<{
     selected?: Variant;
     onSelect: (variant: Variant) => void;
 }> = ({ variants, selected, onSelect }) => {
-    const selectedClass = 'border';
+    const selectedClass = 'border-black dark:border-white';
     return (
         <div className="-ml-1">
             {variants.map(variant => (
                 <button
                     key={variant.color}
                     onClick={() => onSelect(variant)}
-                    className={`m-1 h-5 w-5 rounded-md border-[.5px] border-zinc-200 ${
+                    className={`m-1 h-5 w-5 rounded-md border border-transparent ${
                         variant.color === selected.color ? selectedClass : ''
                     } : ''`}
                     style={{ backgroundColor: variant.color }}
@@ -62,7 +62,7 @@ const Item: React.FC<{
                         )}
                         <div>{price}</div>
                     </div>
-                    <button className="ml-auto mt-auto h-min rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-pink-600 px-5 py-1 text-white transition-colors hover:border-black hover:dark:border-white">
+                    <button className="border-back-light dark:border-back-dark ml-auto mt-auto h-min rounded-md border-2 bg-gradient-to-r from-purple-600 to-pink-600 px-5 py-1 text-white transition-colors hover:border-black hover:dark:border-white">
                         BUY
                     </button>
                 </div>
