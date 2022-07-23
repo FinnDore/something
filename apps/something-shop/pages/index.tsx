@@ -1,6 +1,7 @@
 import { useAtom } from 'jotai';
 import Basket from '../components/basket';
-import { variantsAtom } from '../hooks/items';
+import Item from '../components/item';
+import { variantsAtom } from '../utils/items';
 
 export function Index() {
     const [variants] = useAtom(variantsAtom);
