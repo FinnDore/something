@@ -112,7 +112,7 @@ const Item: React.FC<{
     const [, addItem] = useReducerAtom(basketItemsAtom, addItemToBasketReducer);
 
     return (
-        <div className="m-auto flex h-[24rem] w-72 flex-col rounded-md border-[.5px] border-black px-3 py-5 drop-shadow-2xl dark:border-white">
+        <div className="w-80% m-auto flex h-[24rem] flex-col rounded-md border-[.5px] border-black px-3 py-5 drop-shadow-2xl dark:border-white lg:w-72">
             <div className="grid h-full place-items-center">
                 <div className="h-52 w-52 overflow-hidden rounded-lg drop-shadow-lg transition-colors">
                     <Image
@@ -185,7 +185,7 @@ const BasketItem: React.FC<{ item: BasketItem }> = ({ item: basketItem }) => {
 const Basket: React.FC = () => {
     const [basketItems] = useAtom(basketItemsAtom);
     return (
-        <div className="m-10 h-[24rem] w-[30rem] rounded-md border-[.5px] border-black px-5 py-5 drop-shadow-2xl dark:border-white">
+        <div className="m-auto mt-5 h-[24rem] w-[100%] rounded-md border-[.5px] border-black px-5 py-5 drop-shadow-2xl dark:border-white lg:m-10 lg:w-[30rem]">
             <h1 className="px text-2xl">Basket</h1>
 
             {basketItems.map(item => (
@@ -200,7 +200,7 @@ export function Index() {
 
     return (
         <div className="dark:bg-back-dark grid h-screen w-screen place-items-center dark:text-white">
-            <div className="flex">
+            <div className="flex flex-col md:flex-row">
                 <Item name="Just a Square" variants={variants} />
                 <Basket />
             </div>

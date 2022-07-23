@@ -8,7 +8,7 @@ function CustomApp({ Component, pageProps }: AppProps) {
             <Head>
                 <title>Welcome to something-shop!</title>
             </Head>
-            <main className="app">
+            <main className="app h-screen w-screen">
                 <Component {...pageProps} />
             </main>
         </>
