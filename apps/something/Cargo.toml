@@ -13,3 +13,11 @@ strum = { version = "0.24", features = ["derive"] }
 dotenv = "0.15.0"
 serde = "1.0"
 cuid = "1.2.0"
+
+
+openssl-sys = "*"
+
+[features]
+# Force openssl-sys to staticly link in the openssl library. Necessary when
+# cross compiling to x86_64-unknown-linux-musl.
+vendored = ["openssl-sys/vendored"]

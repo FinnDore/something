@@ -2,6 +2,8 @@ mod api;
 mod enums;
 pub mod models;
 pub mod schema;
+use std::env;
+
 use api::add_item::add_item;
 use api::checkout::checkout;
 extern crate dotenv;
@@ -12,7 +14,6 @@ extern crate rocket;
 extern crate diesel;
 
 use diesel::{mysql::MysqlConnection, Connection};
-use std::env;
 
 pub fn establish_connection() -> MysqlConnection {
     let database_url =
@@ -24,8 +25,10 @@ pub fn establish_connection() -> MysqlConnection {
 #[launch]
 fn rocket() -> _ {
     const VERSION: Option<&str> = option_env!("CARGO_PKG_VERSION");
+    const ADDR: Option<&str> = option_env!("ROCKET_ADDRESS");
 
     println!("💸 something version {} 💸", VERSION.unwrap_or("UNKNOWN"));
+    println!("Rocket address is {}", ADDR.unwrap_or("UNKNOWN"));
 
     rocket::build().mount("/", routes![checkout, add_item])
 }
