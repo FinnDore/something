@@ -53,7 +53,7 @@ const BasketRow: React.FC<{ item: BasketItem }> = ({ item: basketItem }) => {
                 </div>
             </td>
             <td className="w-full py-1">
-                {currentItem.name} ({currentVariant.variantName} )
+                {currentItem.name} ( {currentVariant.variantName} )
             </td>
             <td className="w-full whitespace-nowrap py-1">
                 £ {currentVariant.price * basketItem.quantity}
