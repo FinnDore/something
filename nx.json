@@ -43,9 +43,20 @@
         },
         "@nrwl/angular:component": {
             "style": "scss"
+        },
+        "@nrwl/react": {
+            "application": {
+                "babel": true
+            }
+        },
+        "@nrwl/next": {
+            "application": {
+                "style": "scss",
+                "linter": "eslint"
+            }
         }
     },
-    "defaultProject": "something-shop",
     "plugins": [],
-    "$schema": "./node_modules/nx/schemas/nx-schema.json"
+    "$schema": "./node_modules/nx/schemas/nx-schema.json",
+    "defaultProject": "something-shop"
 }
