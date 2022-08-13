@@ -30,7 +30,6 @@ fn rocket() -> _ {
     const ADDR: Option<&str> = option_env!("ROCKET_ADDRESS");
 
     println!("💸 something version {} 💸", VERSION.unwrap_or("UNKNOWN"));
-    println!("Rocket address is {}", ADDR.unwrap_or("UNKNOWN"));
 
-    rocket::build().mount("/", routes![authMiddleware, checkout, add_item])
+    rocket::build().mount("/", routes![checkout, add_item])
 }

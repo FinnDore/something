@@ -1,4 +1,5 @@
 #![allow(non_snake_case)]
+use crate::authMiddleware::authMiddleware;
 use crate::enums::response_code::ResponseCode;
 use crate::establish_connection;
 use crate::models::generic_response::VoidGenericResponse;
@@ -18,7 +19,7 @@ pub struct RequestBody {
 // Takes a list of items and returns a checkout url
 #[put("/add-item", data = "<req>")]
 pub async fn add_item(
-    req: Json<RequestBody>,
+    req: AuthMiddleware<Json<RequestBody>>,
 ) -> Custom<Json<VoidGenericResponse>> {
     use crate::schema::items::dsl::{description, id, items, name, priceId};
     use diesel::prelude::*;
