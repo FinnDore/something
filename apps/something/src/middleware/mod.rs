@@ -3,82 +3,73 @@ use std::sync::atomic::{AtomicUsize, Ordering};
 
 use rocket::fairing::{Fairing, Info, Kind};
 use rocket::http::{ContentType, Method, Status};
-use rocket::request::FromRequest;
-use rocket::{Data, Request, Response};
+use rocket::request::{FromRequest, Outcome};
+use rocket::response::status::{self, Custom};
+use rocket::serde::json::Json;
+use rocket::{outcome, Data, Request, Response};
+
+use crate::enums::response_code::ResponseCode;
+use crate::models::generic_response::VoidGenericResponse;
 
 pub struct AuthMiddleware {
     secret_header: String,
 }
+struct ApiKey<'r>(&'r str);
 
-impl Default for AuthMiddleware {
-    fn default(secret: &str) -> Self {
-        AuthMiddleware {
-            secret_header: format!("barer {}", secret).to_string(),
-        }
-    }
+#[derive(Debug)]
+pub enum ApiKeyError {
+    Missing,
+    Invalid,
 }
 
-// impl Fairing for AuthMiddleware {
-//     // This is a request and response fairing named "GET/POST Counter".
-//     fn info(&self) -> Info {
-//         Info {
-//             name: "AuthMiddleware",
-//             kind: Kind::Request,
-//         }
-//     }
-
-//     // Increment the counter for `GET` and `POST` requests.
-//     fn on_request(&self, request: &mut Request, _: &Data) {
-//         match request.headers().get_one("Authorization") {
-//             Some(auth) => {
-//                 if auth == self.secret_header {
-//                     return Status::Ok;
-//                 } else {
-//                     return Status::Unauthorized;
-//                 }
-//             }
-//             None => {
-//                 // If no Authorization header is present, return a 401 Unauthorized response.
-
-//                 Status::Unauthorized
-//             }
-//         }
-//     }
-// }
-
-// #[get("/<_..>", rank = 1)]
-// pub fn authMiddleware(req: Request) -> Status {
-//     // check if the request has an valid Authorization header and return a 401 Unauthorized response if not
-//     match req.headers().get_one("Authorization") {
-//         Some(auth) => {
-//             if auth == "Bearer a" {
-//                 return Status::Ok;
-//             } else {
-//                 return Status::Unauthorized;
-//             }
-//         }
-//         None => {
-//             // If no Authorization header is present, return a 401 Unauthorized response.
-//             Status::Unauthorized
-//         }
-//     }
-// }
-
+#[rocket::async_trait]
 impl<'r> FromRequest<'r> for AuthMiddleware {
-    type Error = ApiError;
-    async fn from_request(
-        req: &'r Request<'_>,
-    ) -> request::Outcome<Self, Self::Error> {
-        let auth_header = req.headers().get_one("Authorization");
+    type Error = Json<VoidGenericResponse>;
 
-        if auth_header.is_none() || auth_header.unwrap() != "Bearer a" {
-            return Outcome::Failure((
+    async fn from_request(req: &'r Request<'_>) -> Outcome<Self, Self::Error> {
+        match req.headers().get_one("Authorization") {
+            None => Outcome::Failure((
                 Status::Unauthorized,
-                ApiError::Unauthorized,
-            ));
+                Json(VoidGenericResponse {
+                    status: ResponseCode::PROVIDE_AUTH_SECRET,
+                }),
+            )),
+            Some(header) if header != "Bearer secret" => Outcome::Failure((
+                Status::Unauthorized,
+                Json(VoidGenericResponse {
+                    status: ResponseCode::INVALID_AUTH_SECRET,
+                }),
+            )),
+            Some(_) => Outcome::Success(AuthMiddleware {
+                secret_header: "Bearer secret".to_string(),
+            }),
         }
 
-        request::Outcome::Success()
+        // if auth_header.is_none() || auth_header.unwrap() != "Bearer a" {
+        //     return Outcome::Failure((
+        //         Status::Unauthorized,
+        //         VoidGenericResponse {
+        //             status: ResponseCode::UNAUTHORIZED,
+        //         },
+        //     ));
+        // } else {
+        //     return Outcome::Success((Status::Ok, ApiKey("aa")));
+        // }
+        // if auth_header.is_none() || auth_header.unwrap() != "Bearer a" {
+        //     return Outcome::Success(status::Custom(
+        //         Status::InternalServerError,
+        //         Json(VoidGenericResponse {
+        //             status: ResponseCode::ERROR,
+        //         }),
+        //     ));
+        // } else {
+        //     return Outcome::Success(status::Custom(
+        //         Status::Ok,
+        //         Json(VoidGenericResponse {
+        //             status: ResponseCode::OK,
+        //         }),
+        //     ));
+        // }
     }
 }
 

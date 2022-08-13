@@ -9,4 +9,6 @@ pub enum ResponseCode {
     OK,
     CHECKOUT_UNKNOWN_ITEM,
     CHECKOUT_OUT_OF_STOCK,
+    PROVIDE_AUTH_SECRET,
+    INVALID_AUTH_SECRET,
 }

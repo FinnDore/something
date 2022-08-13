@@ -7,7 +7,7 @@ use std::env;
 
 use api::add_item::add_item;
 use api::checkout::checkout;
-use middleware::authMiddleware;
+use middleware::AuthMiddleware;
 extern crate dotenv;
 
 #[macro_use]
