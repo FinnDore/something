@@ -1,3 +1,5 @@
+#![allow(clippy::enum_variant_names)]
+
 use serde::Serialize;
 use strum::EnumString;
 

@@ -7,7 +7,7 @@ use std::env;
 
 use api::add_item::add_item;
 use api::checkout::checkout;
-use middleware::AuthMiddleware;
+
 extern crate dotenv;
 
 #[macro_use]
@@ -27,7 +27,6 @@ pub fn establish_connection() -> MysqlConnection {
 #[launch]
 fn rocket() -> _ {
     const VERSION: Option<&str> = option_env!("CARGO_PKG_VERSION");
-    const ADDR: Option<&str> = option_env!("ROCKET_ADDRESS");
 
     println!("💸 something version {} 💸", VERSION.unwrap_or("UNKNOWN"));
 

@@ -21,7 +21,7 @@ pub struct RequestBody {
 #[put("/add-item", data = "<req>")]
 pub fn add_item(
     req: Json<RequestBody>,
-    deets: AuthMiddleware,
+    _auth: AuthMiddleware,
 ) -> Custom<Json<VoidGenericResponse>> {
     use crate::schema::items::dsl::{description, id, items, name, priceId};
     use diesel::prelude::*;
