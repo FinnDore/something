@@ -1,11 +1,13 @@
 mod api;
 mod enums;
+mod middleware;
 pub mod models;
 pub mod schema;
 use std::env;
 
 use api::add_item::add_item;
 use api::checkout::checkout;
+use middleware::authMiddleware;
 extern crate dotenv;
 
 #[macro_use]
@@ -30,5 +32,5 @@ fn rocket() -> _ {
     println!("💸 something version {} 💸", VERSION.unwrap_or("UNKNOWN"));
     println!("Rocket address is {}", ADDR.unwrap_or("UNKNOWN"));
 
-    rocket::build().mount("/", routes![checkout, add_item])
+    rocket::build().mount("/", routes![authMiddleware, checkout, add_item])
 }
