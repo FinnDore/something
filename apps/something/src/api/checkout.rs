@@ -116,7 +116,7 @@ pub async fn checkout(
 
     let mut valid_items = req.items.iter().to_owned();
     for current_item_id in item_ids.iter() {
-        if valid_items.any(|checkout_item| checkout_item.id == *current_item_id)
+        if valid_items.any(|checkout_item| checkout_item.id != *current_item_id)
         {
             unknown_items.push(current_item_id.to_string());
         }
