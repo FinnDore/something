@@ -36,27 +36,7 @@ struct StripeResponse {
 // Handles errors from stripe
 fn handle_error(err: reqwest::Error) -> Custom<Json<GenericResponse<String>>> {
     if !err.is_request() || err.status().is_none() {
-        print!("err {}", err);
-        return status::Custom(
-            Status::InternalServerError,
-            Json(GenericResponse {
-                status: ResponseCode::ERROR,
-                data: "".to_string(),
-            }),
-        );
-    }
-
-    let raw_status = err.status().unwrap();
-
-    if raw_status == StatusCode::BAD_REQUEST {
-        print!("bad req");
-        return status::Custom(
-            Status::BadRequest,
-            Json(GenericResponse {
-                status: ResponseCode::ERROR,
-                data: "".to_string(),
-            }),
-        );
+        println!("Server error while making request {}", err);
     }
 
     status::Custom(
