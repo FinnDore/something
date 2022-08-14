@@ -1,4 +1,4 @@
-#![allow(non_camel_case_types)]
+#![allow(non_camel_case_types, clippy::upper_case_acronyms)]
 
 use serde::{Deserialize, Serialize};
 use strum::EnumString;
@@ -9,4 +9,6 @@ pub enum ResponseCode {
     OK,
     CHECKOUT_UNKNOWN_ITEM,
     CHECKOUT_OUT_OF_STOCK,
+    PROVIDE_AUTH_SECRET,
+    INVALID_AUTH_SECRET,
 }

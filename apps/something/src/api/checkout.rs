@@ -1,11 +1,12 @@
 use crate::enums::response_code::ResponseCode;
 use crate::establish_connection;
+use crate::middleware::AuthMiddleware;
 use crate::models::db::item::Item;
 use crate::models::generic_response::GenericResponse;
 
 use diesel::QueryResult;
-use reqwest::StatusCode;
 use reqwest::{self, header::CONTENT_TYPE};
+
 use rocket::http::Status;
 use rocket::response::status::{self, Custom};
 use rocket::serde::json::Json;
@@ -34,29 +35,8 @@ struct StripeResponse {
 
 // Handles errors from stripe
 fn handle_error(err: reqwest::Error) -> Custom<Json<GenericResponse<String>>> {
-    let status = err.status();
-    if status.is_none() || err.is_decode() {
-        print!("is None");
-        return status::Custom(
-            Status::InternalServerError,
-            Json(GenericResponse {
-                status: ResponseCode::ERROR,
-                data: "".to_string(),
-            }),
-        );
-    }
-
-    let raw_status = status.unwrap();
-
-    if raw_status == StatusCode::BAD_REQUEST {
-        print!("bad req");
-        return status::Custom(
-            Status::BadRequest,
-            Json(GenericResponse {
-                status: ResponseCode::ERROR,
-                data: "".to_string(),
-            }),
-        );
+    if !err.is_request() || err.status().is_none() {
+        println!("Server error while making request {}", err);
     }
 
     status::Custom(
@@ -80,6 +60,7 @@ fn get_items_by_id(item_ids: &Vec<String>) -> QueryResult<Vec<Item>> {
 #[put("/checkout", data = "<req>")]
 pub async fn checkout(
     req: Json<RequestBody>,
+    _auth: AuthMiddleware,
 ) -> Either<
     Custom<Json<GenericResponse<Vec<String>>>>,
     Custom<Json<GenericResponse<String>>>,
@@ -113,12 +94,8 @@ pub async fn checkout(
     };
 
     let mut valid_items = req.items.iter().to_owned();
-    for current_item_id in item_ids.iter().to_owned() {
-        if valid_items
-            .find(|checkout_item| {
-                checkout_item.id == current_item_id.to_string()
-            })
-            .is_none()
+    for current_item_id in item_ids.iter() {
+        if valid_items.any(|checkout_item| checkout_item.id != *current_item_id)
         {
             unknown_items.push(current_item_id.to_string());
         }
@@ -136,7 +113,7 @@ pub async fn checkout(
 
     let mut items_by_id = HashMap::new();
     for item in &req.items {
-        items_by_id.insert(item.id.to_string(), item.quantity.clone());
+        items_by_id.insert(item.id.to_string(), item.quantity);
     }
 
     let mut form: Vec<(String, String)> = vec![
@@ -187,7 +164,7 @@ pub async fn checkout(
     rocket::Either::Right(status::Custom(
         Status::Ok,
         Json(GenericResponse {
-            data: stripe_response.url.to_owned(),
+            data: stripe_response.url,
             status: ResponseCode::OK,
         }),
     ))
