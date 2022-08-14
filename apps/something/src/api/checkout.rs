@@ -35,12 +35,8 @@ struct StripeResponse {
 
 // Handles errors from stripe
 fn handle_error(err: reqwest::Error) -> Custom<Json<GenericResponse<String>>> {
-    let status = err.status();
-    if status.is_none() || err.is_decode() {
-        print!(
-            "is None {}",
-            err.status().unwrap_or(StatusCode::INSUFFICIENT_STORAGE)
-        );
+    if !err.is_request() || err.status().is_none() {
+        print!("err {}", err);
         return status::Custom(
             Status::InternalServerError,
             Json(GenericResponse {
@@ -50,7 +46,7 @@ fn handle_error(err: reqwest::Error) -> Custom<Json<GenericResponse<String>>> {
         );
     }
 
-    let raw_status = status.unwrap();
+    let raw_status = err.status().unwrap();
 
     if raw_status == StatusCode::BAD_REQUEST {
         print!("bad req");
