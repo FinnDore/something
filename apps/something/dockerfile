@@ -1,8 +1,6 @@
 ARG ROCKET_ADDRESS=0.0.0.0
 ARG DATABASE_URL
 ARG AUTH_SECRET
-ARG RUST_LOG
-ARG reqwest
 
 FROM amd64/rust:1.62.10@sha256:4f1d43c216d995c2f734d7c682bc3e2abe3e110961cda4ae0743ce3944e673a2 as builder
 
@@ -23,8 +21,6 @@ RUN apt-get update && apt-get install -y libssl-dev ca-certificates libmariadb-d
 ENV AUTH_SECRET=${AUTH_SECRET}
 ENV ROCKET_ADDRESS=${ROCKET_ADDRESS}
 ENV DATABASE_URL=${DATABASE_URL}
-ENV RUST_LOG=${RUST_LOG}
-ENV reqwest=${reqwest}
 
 ENV ROCKET_CONFIG=/usr/rocket.toml
 

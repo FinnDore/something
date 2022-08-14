@@ -7,6 +7,7 @@ use crate::models::generic_response::GenericResponse;
 use diesel::QueryResult;
 use reqwest::StatusCode;
 use reqwest::{self, header::CONTENT_TYPE};
+
 use rocket::http::Status;
 use rocket::response::status::{self, Custom};
 use rocket::serde::json::Json;
