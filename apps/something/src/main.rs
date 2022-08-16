@@ -19,16 +19,24 @@ extern crate diesel;
 #[macro_use]
 extern crate diesel_migrations;
 
-// #[database("mysql_db")]
-// pub struct Db(diesel::MysqlConnection);
+use rocket_sync_db_pools::database;
+
+#[database("mysql")]
+pub struct DbConnPool(diesel::MysqlConnection);
 
 use diesel::{mysql::MysqlConnection, Connection};
+use rocket::figment::{
+    util::map,
+    value::{Map, Value},
+};
 use rocket::{fairing::AdHoc, Build, Rocket};
 
+fn get_db_url() -> String {
+    env::var("DATABASE_URL").expect("DATABASE_URL must be set")
+}
+
 pub fn establish_connection() -> MysqlConnection {
-    let database_url =
-        env::var("DATABASE_URL").expect("DATABASE_URL must be set");
-    MysqlConnection::establish(&database_url)
+    MysqlConnection::establish(&get_db_url())
         .expect("Error connecting to database")
 }
 
@@ -46,16 +54,26 @@ async fn run_db_migrations(
 }
 
 embed_migrations!("./migrations");
+
 #[launch]
 fn rocket() -> _ {
     const VERSION: Option<&str> = option_env!("CARGO_PKG_VERSION");
 
     println!("💸 something version {} 💸", VERSION.unwrap_or("UNKNOWN"));
 
-    rocket::build()
+    let db: Map<_, Value> = map! {
+        "url" => get_db_url().into(),
+        "pool_size" => 10.into()
+    };
+
+    let figment =
+        rocket::Config::figment().merge(("databases", map!["mysql" => db]));
+
+    rocket::custom(figment)
         .attach(AdHoc::try_on_ignite(
             "Database Migrations",
             run_db_migrations,
         ))
+        .attach(DbConnPool::fairing())
         .mount("/", routes![checkout, add_item])
 }

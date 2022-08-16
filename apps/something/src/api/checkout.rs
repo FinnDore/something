@@ -1,11 +1,12 @@
 use crate::enums::response_code::ResponseCode;
-use crate::establish_connection;
 use crate::middleware::AuthMiddleware;
 use crate::models::db::item::Item;
 use crate::models::generic_response::GenericResponse;
+use crate::DbConnPool;
 
-use diesel::QueryResult;
+use diesel::result::Error;
 use reqwest::{self, header::CONTENT_TYPE};
+use rocket_sync_db_pools::diesel;
 
 use rocket::http::Status;
 use rocket::response::status::{self, Custom};
@@ -48,18 +49,24 @@ fn handle_error(err: reqwest::Error) -> Custom<Json<GenericResponse<String>>> {
     )
 }
 
-fn get_items_by_id(item_ids: &Vec<String>) -> QueryResult<Vec<Item>> {
+async fn get_items_by_id(
+    item_ids: Vec<String>,
+    db_conn_pool: DbConnPool,
+) -> Result<Vec<Item>, Error> {
     use crate::schema::items::dsl::{id, items};
     use diesel::prelude::*;
-    let conn = establish_connection();
+    // let conn = establish_connection();
 
-    items.filter(id.eq_any(item_ids)).load::<Item>(&conn)
+    db_conn_pool
+        .run(|conn| items.filter(id.eq_any(item_ids)).load(&*conn))
+        .await
 }
 
 // Takes a list of items and returns a checkout url
 #[put("/checkout", data = "<req>")]
 pub async fn checkout(
     req: Json<RequestBody>,
+    db_pool: DbConnPool,
     _auth: AuthMiddleware,
 ) -> Either<
     Custom<Json<GenericResponse<Vec<String>>>>,
@@ -73,7 +80,7 @@ pub async fn checkout(
         .map(|item| item.id.to_string())
         .collect::<Vec<String>>();
 
-    let potential_shop_items = get_items_by_id(item_ids);
+    let potential_shop_items = get_items_by_id(item_ids.clone(), db_pool).await;
 
     if let Err(_err) = potential_shop_items {
         return Either::Right(status::Custom(

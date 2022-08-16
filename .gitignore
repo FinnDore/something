@@ -40,7 +40,7 @@ testem.log
 Thumbs.db
 
 .angular
-/target
+**/target
 
 # Generated Docusaurus files
 .docusaurus/
