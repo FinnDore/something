@@ -2,7 +2,7 @@ use crate::enums::response_code::ResponseCode;
 use crate::middleware::AuthMiddleware;
 use crate::models::db::item::Item;
 use crate::models::generic_response::GenericResponse;
-use crate::{establish_connection, DbConn};
+use crate::{establish_connection, DbConnPool};
 
 use diesel::result::Error;
 use reqwest::{self, header::CONTENT_TYPE};
@@ -51,23 +51,22 @@ fn handle_error(err: reqwest::Error) -> Custom<Json<GenericResponse<String>>> {
 
 async fn get_items_by_id(
     item_ids: Vec<String>,
-    con: DbConn,
+    db_conn_pool: DbConnPool,
 ) -> Result<Vec<Item>, Error> {
     use crate::schema::items::dsl::{id, items};
     use diesel::prelude::*;
     // let conn = establish_connection();
 
-    let a = con
-        .run(|conn| items.filter(id.eq_any(item_ids)).load(conn))
-        .await;
-    a
+    db_conn_pool
+        .run(|conn| items.filter(id.eq_any(item_ids)).load(&*conn))
+        .await
 }
 
 // Takes a list of items and returns a checkout url
 #[put("/checkout", data = "<req>")]
 pub async fn checkout(
     req: Json<RequestBody>,
-    conn: DbConn,
+    dbPool: DbConnPool,
     _auth: AuthMiddleware,
 ) -> Either<
     Custom<Json<GenericResponse<Vec<String>>>>,
@@ -81,7 +80,7 @@ pub async fn checkout(
         .map(|item| item.id.to_string())
         .collect::<Vec<String>>();
 
-    let potential_shop_items = get_items_by_id(item_ids.clone(), conn).await;
+    let potential_shop_items = get_items_by_id(item_ids.clone(), dbPool).await;
 
     if let Err(_err) = potential_shop_items {
         return Either::Right(status::Custom(

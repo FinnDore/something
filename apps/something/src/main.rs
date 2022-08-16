@@ -22,7 +22,7 @@ extern crate diesel_migrations;
 use rocket_sync_db_pools::database;
 
 #[database("mysql")]
-pub struct DbConn(diesel::MysqlConnection);
+pub struct DbConnPool(diesel::MysqlConnection);
 
 use diesel::{mysql::MysqlConnection, Connection};
 use rocket::figment::{
@@ -74,6 +74,6 @@ fn rocket() -> _ {
             "Database Migrations",
             run_db_migrations,
         ))
-        .attach(DbConn::fairing())
+        .attach(DbConnPool::fairing())
         .mount("/", routes![checkout, add_item])
 }
