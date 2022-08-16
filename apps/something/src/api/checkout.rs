@@ -2,11 +2,11 @@ use crate::enums::response_code::ResponseCode;
 use crate::middleware::AuthMiddleware;
 use crate::models::db::item::Item;
 use crate::models::generic_response::GenericResponse;
-use crate::{establish_connection, DbConnPool};
+use crate::DbConnPool;
 
 use diesel::result::Error;
 use reqwest::{self, header::CONTENT_TYPE};
-use rocket_sync_db_pools::{database, diesel};
+use rocket_sync_db_pools::diesel;
 
 use rocket::http::Status;
 use rocket::response::status::{self, Custom};
@@ -66,7 +66,7 @@ async fn get_items_by_id(
 #[put("/checkout", data = "<req>")]
 pub async fn checkout(
     req: Json<RequestBody>,
-    dbPool: DbConnPool,
+    db_pool: DbConnPool,
     _auth: AuthMiddleware,
 ) -> Either<
     Custom<Json<GenericResponse<Vec<String>>>>,
@@ -80,7 +80,7 @@ pub async fn checkout(
         .map(|item| item.id.to_string())
         .collect::<Vec<String>>();
 
-    let potential_shop_items = get_items_by_id(item_ids.clone(), dbPool).await;
+    let potential_shop_items = get_items_by_id(item_ids.clone(), db_pool).await;
 
     if let Err(_err) = potential_shop_items {
         return Either::Right(status::Custom(

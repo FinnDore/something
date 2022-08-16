@@ -1,6 +1,6 @@
 #![allow(non_snake_case)]
 use crate::enums::response_code::ResponseCode;
-use crate::{establish_connection, DbConnPool};
+use crate::DbConnPool;
 
 use crate::middleware::AuthMiddleware;
 use crate::models::generic_response::VoidGenericResponse;

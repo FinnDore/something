@@ -36,7 +36,7 @@ fn get_db_url() -> String {
 }
 
 pub fn establish_connection() -> MysqlConnection {
-    MysqlConnection::establish(&get_db_url().to_string())
+    MysqlConnection::establish(&get_db_url())
         .expect("Error connecting to database")
 }
 
@@ -62,7 +62,7 @@ fn rocket() -> _ {
     println!("💸 something version {} 💸", VERSION.unwrap_or("UNKNOWN"));
 
     let db: Map<_, Value> = map! {
-        "url" => get_db_url().to_string().into(),
+        "url" => get_db_url().into(),
         "pool_size" => 10.into()
     };
 
