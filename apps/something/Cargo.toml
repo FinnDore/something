@@ -16,13 +16,12 @@ serde = "1.0"
 cuid = "1.2.0"
 
 
-
 openssl-sys = "*"
 
+
 [dependencies.rocket_sync_db_pools]
-version = "0.1.0-rc.1"
-default-features = false
-features = ["diesel_postgres_pool"]
+version = "0.1.0-rc.2"
+features = ["diesel_mysql_pool"]
 
 [features]
 # Force openssl-sys to staticly link in the openssl library. Necessary when
