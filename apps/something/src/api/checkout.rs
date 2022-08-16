@@ -60,6 +60,7 @@ fn get_items_by_id(item_ids: &Vec<String>) -> QueryResult<Vec<Item>> {
 #[put("/checkout", data = "<req>")]
 pub async fn checkout(
     req: Json<RequestBody>,
+    conn: DbConn,
     _auth: AuthMiddleware,
 ) -> Either<
     Custom<Json<GenericResponse<Vec<String>>>>,

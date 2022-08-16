@@ -19,8 +19,10 @@ extern crate diesel;
 #[macro_use]
 extern crate diesel_migrations;
 
-// #[database("mysql_db")]
-// pub struct Db(diesel::MysqlConnection);
+use rocket_sync_db_pools::{ database};
+
+#[database("mysql")]
+struct DbConn(diesel::MysqlConnection);
 
 use diesel::{mysql::MysqlConnection, Connection};
 use rocket::{fairing::AdHoc, Build, Rocket};
@@ -57,5 +59,6 @@ fn rocket() -> _ {
             "Database Migrations",
             run_db_migrations,
         ))
+        .
         .mount("/", routes![checkout, add_item])
 }
