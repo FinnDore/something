@@ -7,6 +7,7 @@ use std::env;
 
 use api::add_item::add_item;
 use api::checkout::checkout;
+use api::get_items::get_items;
 
 use diesel_migrations::embed_migrations;
 
@@ -75,5 +76,5 @@ fn rocket() -> _ {
             run_db_migrations,
         ))
         .attach(DbConnPool::fairing())
-        .mount("/", routes![checkout, add_item])
+        .mount("/", routes![checkout, add_item, get_items])
 }
