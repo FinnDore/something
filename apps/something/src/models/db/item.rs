@@ -10,3 +10,10 @@ pub struct Item {
     pub description: String,
     pub priceId: String,
 }
+// A shop item with all the private stuff stripped
+#[derive(Debug, Serialize, Deserialize, Queryable)]
+pub struct PublicItem {
+    pub id: String,
+    pub name: String,
+    pub description: String,
+}

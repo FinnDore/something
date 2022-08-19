@@ -55,7 +55,6 @@ async fn get_items_by_id(
 ) -> Result<Vec<Item>, Error> {
     use crate::schema::items::dsl::{id, items};
     use diesel::prelude::*;
-    // let conn = establish_connection();
 
     db_conn_pool
         .run(|conn| items.filter(id.eq_any(item_ids)).load(&*conn))
