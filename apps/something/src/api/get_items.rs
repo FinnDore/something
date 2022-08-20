@@ -11,8 +11,9 @@ use rocket::response::status::{self, Custom};
 use rocket::serde::json::Json;
 use rocket::Either;
 
-type AllColumns = (items::id, items::name, items::description);
-const ALL_COLUMNS: AllColumns = (items::id, items::name, items::description);
+type AllColumns = (items::id, items::name, items::description, items::price);
+const ALL_COLUMNS: AllColumns =
+    (items::id, items::name, items::description, items::price);
 
 // Returns all items in the shop
 #[get("/get-items")]
