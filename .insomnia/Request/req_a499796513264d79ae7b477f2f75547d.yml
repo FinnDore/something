@@ -1,0 +1,38 @@
+_id: req_a499796513264d79ae7b477f2f75547d
+type: Request
+parentId: wrk_bf5e66bee54b4e19aa0a66d7dfef4bdb
+modified: 1660952380394
+created: 1657831504588
+url: "{{ _.host }}/add-item"
+name: add-item
+description: ""
+method: PUT
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"name": "ice Tea",
+    	"description": "some nice ice tea",
+    	"priceId": "price_1L88f0KBi9YpHhPGJnB4uxjX",
+    	"price": "22"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+    id: pair_d8edc1424ff14e46a8f34672629d6d60
+  - id: pair_1d55be2638274ffdb541d68207cd005c
+    name: Authorization
+    value: Bearer
+      ra1ea0080mpcy3rsf2sfao3x5zcz10tabe9mnsu842bmt79hu1usafg3o3n5266qyunlxnat2x8larwmps68euqtfvi11b9v
+    description: ""
+    disabled: false
+authentication: {}
+metaSortKey: -1657722517205
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global
