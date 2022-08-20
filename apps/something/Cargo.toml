@@ -14,7 +14,7 @@ strum = { version = "0.24", features = ["derive"] }
 dotenv = "0.15.0"
 serde = "1.0"
 cuid = "1.2.0"
-
+rust_decimal = {version = "1.22.0", features = ["db-diesel-mysql"]}
 
 openssl-sys = "*"
 

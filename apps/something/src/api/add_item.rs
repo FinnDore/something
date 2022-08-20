@@ -8,6 +8,8 @@ use crate::models::generic_response::VoidGenericResponse;
 use rocket::http::Status;
 use rocket::response::status::{self, Custom};
 use rocket::serde::json::Json;
+
+use rust_decimal::prelude::Decimal;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -15,6 +17,7 @@ pub struct RequestBody {
     priceId: String,
     name: String,
     description: String,
+    price: Decimal,
 }
 
 // Takes a list of items and returns a checkout url
@@ -24,7 +27,9 @@ pub async fn add_item(
     db_conn_pool: DbConnPool,
     _auth: AuthMiddleware,
 ) -> Custom<Json<VoidGenericResponse>> {
-    use crate::schema::items::dsl::{description, id, items, name, priceId};
+    use crate::schema::items::dsl::{
+        description, id, items, name, price, priceId,
+    };
     use diesel::prelude::*;
 
     let new_item = vec![(
@@ -32,6 +37,7 @@ pub async fn add_item(
         name.eq(req.name.to_owned()),
         description.eq(req.description.to_owned()),
         priceId.eq(req.priceId.to_owned()),
+        price.eq(req.price),
     )];
 
     let insert_res = db_conn_pool

@@ -3,7 +3,8 @@ CREATE TABLE
         id VARCHAR(36) PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
         description VARCHAR(500) NOT NULL,
-        priceId VARCHAR(30) NOT NULL
+        priceId VARCHAR(30) NOT NULL,
+        price DECIMAL(19, 4)
     );
 
 
