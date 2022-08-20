@@ -1,0 +1,21 @@
+_id: req_39e55bbb3f2941a28675850936072283
+type: Request
+parentId: wrk_bf5e66bee54b4e19aa0a66d7dfef4bdb
+modified: 1660944700075
+created: 1660944689903
+url: "{{ _.host }}/get-items"
+name: get-items
+description: ""
+method: GET
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1660944689903
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

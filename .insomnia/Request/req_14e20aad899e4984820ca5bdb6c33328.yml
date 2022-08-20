@@ -1,0 +1,43 @@
+_id: req_14e20aad899e4984820ca5bdb6c33328
+type: Request
+parentId: wrk_bf5e66bee54b4e19aa0a66d7dfef4bdb
+modified: 1660954317719
+created: 1657722517255
+url: "{{ _.host }}/checkout"
+name: checkout
+description: ""
+method: PUT
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"success_url": "https://example.com/success",
+    	"cancel_url": "https://example.com/success",
+    	"items": [
+    	
+    	{
+    			"id": "cl6wo4lj00000p5fnrzhlatvh",
+    			"quantity": 2
+    		}
+    	
+    	]
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+    id: pair_d8edc1424ff14e46a8f34672629d6d60
+  - id: pair_6e2ca81264274406ae5849098b970449
+    name: Authorization
+    value: Bearer
+      ra1ea0080mpcy3rsf2sfao3x5zcz10tabe9mnsu842bmt79hu1usafg3o3n5266qyunlxnat2x8larwmps68euqtfvi11b9v
+    description: ""
+authentication: {}
+metaSortKey: -1657722517255
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global
